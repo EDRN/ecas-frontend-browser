@@ -1,0 +1,14 @@
+# Copyright (c) 2008 California Institute of Technology.
+# ALL RIGHTS RESERVED. U.S. Government Sponsorship acknowledged.
+#
+# $Id$
+#
+# External Services definition file for the eCAS web ui
+# Maps field name to external service where its value can be
+# resolved.
+# Authors: ahart, mattmann
+
+STUDY_SITE_ID|${ECAS_EXTERNAL_SERVICES_BASE_URL}/sites.php
+STUDY_PROTOCOL_ID|${ECAS_EXTERNAL_SERVICES_BASE_URL}/protocols.php
+SiteId|${ECAS_EXTERNAL_SERVICES_BASE_URL}/sites.php
+ProtocolId|${ECAS_EXTERNAL_SERVICES_BASE_URL}/protocols.php
