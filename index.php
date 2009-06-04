@@ -122,8 +122,8 @@ download the data.
 		
 		$typeMetadata = $prodType->getTypeMetadata();
 		$typeMetAssocArray = $typeMetadata->toAssocArray();
-		$protocolId = $typeMetAssocArray["DataSetName"][0];
-	 	$r = new HTTPRequest($er->services["DataSetName"]."?id=".$protocolId);
+		$protocolId = $typeMetAssocArray["ProtocolName"][0];
+	 	$r = new HTTPRequest($er->services["ProtocolName"]."?id=".$protocolId);
 		$str = $r->DownloadToString();
 		$protocolName = ($str == '') ? $protocolId:array($str);
 		
@@ -152,7 +152,7 @@ download the data.
 		<?php 
 			foreach ($typeList as $pType){
 			   $typeMet = $pType->getTypeMetadata()->toAssocArray();
-			   $typeNameStr = $typeMet["Title"][0];
+			   $typeNameStr = $typeMet["DataSetName"][0];
 			   $collabGroupStr = $typeMet["CollaborativeGroup"][0];
 			   $organStr = $typeMet["OrganId"][0];
 			   $piStr = $typeMet["Author"][0];
