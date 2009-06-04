@@ -122,8 +122,8 @@ download the data.
 		
 		$typeMetadata = $prodType->getTypeMetadata();
 		$typeMetAssocArray = $typeMetadata->toAssocArray();
-		$protocolId = $typeMetAssocArray["ProtocolId"][0];
-	 	$r = new HTTPRequest($er->services["ProtocolId"]."?id=".$protocolId);
+		$protocolId = $typeMetAssocArray["DataSetName"][0];
+	 	$r = new HTTPRequest($er->services["DataSetName"]."?id=".$protocolId);
 		$str = $r->DownloadToString();
 		$protocolName = ($str == '') ? $protocolId:array($str);
 		
