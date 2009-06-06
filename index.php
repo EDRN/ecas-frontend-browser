@@ -154,8 +154,8 @@ download the data.
 			   $typeMet = $pType->getTypeMetadata()->toAssocArray();
 			   $typeNameStr = $typeMet["DataSetName"][0];
 			   $collabGroupStr = $typeMet["CollaborativeGroup"][0];
-			   $organStr = $typeMet["OrganId"][0];
-			   $piStr = $typeMet["Author"][0];
+			   $organStr = $typeMet["OrganSite"][0];
+			   $piStr = $typeMet["LeadPi"][0];
 			   echo "<li><span class=\"title\">".$typeNameStr." (<a href=\"./dataset.php?typeID=".$pType->getId()."\">".$xmlRpcMgr->getNumProducts($pType)." products</a>)</span><br/>\n";		
 			   echo "<span class=\"details\">[PI: ".$piStr.", Organ: ".$organStr.", Collaborative Group: ".$collabGroupStr."]</span><br/>";
 			   echo "</li>";
