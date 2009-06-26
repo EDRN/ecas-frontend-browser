@@ -89,6 +89,8 @@ if ($productType->getId() == '') {
 
 // Get the Metadata for the product type
 $metadata = $productType->getTypeMetadata();
+$typeMet = $productType->getTypeMetadata()->toAssocArray();
+$typeNameStr = $typeMet["DataSetName"][0];
 ?>
 <!-- Breadcrumbs Area -->
 <div id="breadcrumbs"/>
@@ -96,7 +98,7 @@ $metadata = $productType->getTypeMetadata();
 	Protocol Dataset: <?php echo $productType->getName();?>
 </div>
 <!-- End Breadcrumbs -->
-<h1 class="dataset-name"><?php echo $productType->getName()?></h1>
+<h1 class="dataset-name"><?php echo $typeNameStr; ?></h1>
 <div id="leftSide">
 <?php
 
