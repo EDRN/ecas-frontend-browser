@@ -139,6 +139,12 @@ $specific_order = array (
    "DataDisclaimer" => array ("Disclaimer", "TBD")
 );
 
+if ($_GET["reveal"]) {
+  $reveal_all_flag = true; 
+} else {
+  $reveal_all_flag = false;
+}
+
 foreach ($datasetMetArr as $label => $value) {
 	if (isset ($er->services[$label])) {
 		$r = new HTTPRequest($er->services[$label] . "?id={$value[0]}");
@@ -153,9 +159,14 @@ foreach ($datasetMetArr as $label => $value) {
 		#echo "$v ";
                 $tmp_v .= $v . " ";
 	}
+        if (! $specific_order[$label] && $reveal_all_flag == true) {
+          $specific_order[$label][0] = $label;
+          $specific_order[$label][1] = $tmp_v;
+        } 
         if ($specific_order[$label]) {
           $specific_order[$label][1] = $tmp_v;
         }
+
 	#echo "</td></tr>";
 }
 
