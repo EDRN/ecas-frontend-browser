@@ -98,7 +98,7 @@ $typeNameStr = $typeMet["DataSetName"][0];
 	Protocol Dataset: <?php echo $productType->getName();?>
 </div>
 <!-- End Breadcrumbs -->
-<h1 class="dataset-name"><?php echo $typeNameStr; ?></h1>
+<h1 class="dataset-name"> <?php echo $typeNameStr; ?> </h1>
 <div id="leftSide">
 <?php
 
@@ -113,11 +113,32 @@ echo '<div class="detailsToggler" id="metadataDetailsToggler" ';
 echo "onclick=\"toggleDetails('metadataDetails');\">less information [-]</div>";
 echo '<div class="searchCriteria" id="metadataDetailsContents" style="display:block;">';
 echo "<table id=\"metadataTable\" >";
-echo '<tr class="even"><td class="metadata-label">Abstract</td><td>' . $productType->getDescription() . '</td></tr>';
+##echo '<tr class="even"><td class="metadata-label">Abstract</td><td>' . $productType->getDescription() . '</td></tr>';
 $er = new ExternalServices($externalServicesPath);
 $evenOddCounter = 1;
 $datasetMetArr = $metadata->toAssocArray();
 uksort($datasetMetArr, "cmp");
+
+$abstract = $productType->getDescription();
+$specific_order = array (
+   "ProtocolName" => array ("Protocol Name", "TBD"),
+   "ProtocolID" => array ("Protocol ID", "TBD"),
+   "description" => array ("Dataset Abstract", $abstract),
+   "DataSetName" => array ("Dataset Name", "TBD"), 
+   "LeadPI" => array ("Principal Investigator", "TBD"),
+   "SiteName" => array ("Site Name", "TBD"),
+   "DataCustodian" => array ("Data Custodian", "TBD"),
+   "DataCustodianEmail" => array ("Data Custodian Email", "TBD"),
+   "OrganSite" => array ("Organ Site", "TBD"),
+   "CollaborativeGroup" => array ("Organ Collaborative Groups", "TBD"),
+   "MethodDetails" => array ("Method Details", "TBD"),
+   "ResultsAndConclusionSummary" => array ("Analytic Results and Conclusions", "TBD"),
+   "PubMedID" => array ("PubMed ID", "TBD"),
+   "DateDatasetFrozen" => array ('Date Dataset was "frozen"', "TBD"),
+   "Date" => array ("Date", "TBD"),
+   "DataDisclaimer" => array ("Disclaimer", "TBD")
+);
+
 foreach ($datasetMetArr as $label => $value) {
 	if (isset ($er->services[$label])) {
 		$r = new HTTPRequest($er->services[$label] . "?id={$value[0]}");
@@ -126,12 +147,24 @@ foreach ($datasetMetArr as $label => $value) {
 			$str
 		);
 	}
-	echo '<tr class="' . (($evenOddCounter++ % 2 == 0) ? 'even' : 'odd') . '"><td class="metadata-label">' . $label . '</td><td>';
+	##echo '<tr class="' . (($evenOddCounter++ % 2 == 0) ? 'even' : 'odd') . '"><td class="metadata-label">' . $label . '</td><td>';
+        $tmp_v = "";
 	foreach ($value as $v) {
-		echo "$v ";
+		#echo "$v ";
+                $tmp_v .= $v . " ";
 	}
-	echo "</td></tr>";
+        if ($specific_order[$label]) {
+          $specific_order[$label][1] = $tmp_v;
+        }
+	#echo "</td></tr>";
 }
+
+foreach ($specific_order as $key => $value) {
+   $label = $value[0];
+   $display = $value[1];
+   echo '<tr class="' . (($evenOddCounter++ % 2 == 0) ? 'even' : 'odd') . '"><td class="metadata-label">' . $label . '</td><td>' . $display . "</td></tr>";
+}
+
 echo "</table>";
 echo "</div>";
 echo "</div>";
