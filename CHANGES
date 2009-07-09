@@ -1,0 +1,13 @@
+EDRN JIRA site: http://oodt.jpl.nasa.gov/jira/browse/CA
+
+
+Release Notes - Early Detection of Cancer - Version eCAS Browser beta 0.4.5 release - 07/09/2009
+
+
+
+
+** Improvement
+    * [CA-353] - Change "Header" in eCAS Dataset Metadata
+    * [CA-354] - Change order of metadata in dataset collection
+
+
