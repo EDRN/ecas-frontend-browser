@@ -37,6 +37,7 @@ function cmp($a, $b)
 <!-- CSS Includes -->
 <link rel="stylesheet" type="text/css" href="assets/edrn-skin/css/edrn-informatics.css"/>
 <link rel="stylesheet" type="text/css" href="css/ecas-ui.css" />
+<link rel="stylesheet" type="text/css" href="css/metadata-visibility.css"/>
 <script type="text/javascript">
   function $(id){
     return document.getElementById(id);
@@ -173,7 +174,7 @@ foreach ($datasetMetArr as $label => $value) {
 foreach ($specific_order as $key => $value) {
    $label = $value[0];
    $display = $value[1];
-   echo '<tr class="' . (($evenOddCounter++ % 2 == 0) ? 'even' : 'odd') . '"><td class="metadata-label">' . $label . '</td><td>' . $display . "</td></tr>";
+   echo '<tr id="datasetMetadataRow-'. str_replace('.','',$key).'" class="' . (($evenOddCounter++ % 2 == 0) ? 'even' : 'odd') . '"><td class="metadata-label">' . $label . '</td><td>' . $display . "</td></tr>";
 }
 
 echo "</table>";

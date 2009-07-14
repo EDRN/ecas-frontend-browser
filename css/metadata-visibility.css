@@ -1,5 +1,17 @@
 @CHARSET "UTF-8";
 
+/** Dataset Metadata Hiding **/
+/*
+ *  usage: tr#datasetMetadataRow-*key* { display:none }
+ */
+tr#datasetMetadataRow-ProtocolId {
+	display:none;	
+}
+
+/** Product Metadata Hiding **/
+/*
+ *  usage: tr#metadataRow-*key* { display:none }
+ */
 tr#metadataRow-FileLocation,
 tr#metadataRow-SiteShortName,
 tr#metadataRow-CASProductReceivedTime,
