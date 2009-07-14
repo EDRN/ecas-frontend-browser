@@ -29,6 +29,7 @@ function decode($str){
 <!-- CSS Includes -->
 <link rel="stylesheet" type="text/css" href="assets/edrn-skin/css/edrn-informatics.css"/>
 <link rel="stylesheet" type="text/css" href="css/ecas-ui.css" />
+<link rel="stylesheet" type="text/css" href="css/metadata-visibility.css" />
 <script type="text/javascript">
   function $(id){
     return document.getElementById(id);
@@ -136,7 +137,7 @@ echo "</div>";
  * 
  */
 echo '<div id="metadataDetails" class="leftBox">';
-echo '<div><h5 class="sectionTitle">Product Metadata: '.$_GET['productID'].'</h5></div>';
+echo '<div><h5 class="sectionTitle">Product Metadata: </h5></div>';
 echo '<div class="detailsToggler" id="metadataDetailsToggler" ';
 echo "onclick=\"toggleDetails('metadataDetails');\">less information [-]</div>";
 echo '<div class="searchCriteria" id="metadataDetailsContents" style="display:block;">';
@@ -149,11 +150,11 @@ foreach ($metadata as $label => $value){
 		$str = $r->DownloadToString();
 		$value = ($str == '')? $value : array($str);
 	}
-	echo '<tr class="'.(($evenOddCounter++ % 2 == 0)?'even':'odd').'"><td>'.$label.'</td><td>';
+	echo '<tr id="metadataRow-'.str_replace(".","",$label).'" class="'.(($evenOddCounter++ % 2 == 0)?'even':'odd').'"><td>'.$label.'</td><td>';
 	foreach ($value as $v) {
 		echo "$v ";
 	}
-	echo "</td></tr>";
+	echo "</td></tr>\r\n";
 }
 echo "</table>";
 echo "</div>";

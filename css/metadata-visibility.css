@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+
+tr#metadataRow-FileLocation,
+tr#metadataRow-SiteShortName,
+tr#metadataRow-CASProductReceivedTime,
+tr#metadataRow-CASProductName,
+tr#metadataRow-CASProductId,
+tr#metadataRow-ProductType {
+	display:none;	
+}
+	
+
+	
