@@ -1,6 +1,21 @@
 EDRN JIRA site: http://oodt.jpl.nasa.gov/jira/browse/CA
 
 
+
+
+Release Notes - Early Detection of Cancer - Version eCAS Browser beta 0.4.6 release - 07/15/2009
+
+** Bug
+    * [CA-363] - Fix LeadPi typo in browser main view
+
+
+
+** Improvement
+    * [CA-359] - Remove Protocol ID from Dataset metadata
+    * [CA-370] - Hide CAS-specific metadata from ecas browser product view
+
+
+
 Release Notes - Early Detection of Cancer - Version eCAS Browser beta 0.4.5 release - 07/09/2009
 
 
