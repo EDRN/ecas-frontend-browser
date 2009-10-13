@@ -126,6 +126,12 @@ download the data.
 	 	$r = new HTTPRequest($er->services["ProtocolName"]."?id=".$protocolId);
 		$str = $r->DownloadToString();
 		$protocolName = ($str == '') ? $protocolId:array($str);
+
+		// don't show it to the browser if publish state is set to "no"		
+		$publishState = $typeMetAssocArray["PublishState"][0];
+		if ($publishState == "no") {
+			continue;
+		}
 		
 		if(is_array($protocolName)){
 			$protocolName = $protocolName[0];
