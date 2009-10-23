@@ -127,14 +127,13 @@ download the data.
 		$str = $r->DownloadToString();
 		$protocolName = ($str == '') ? $protocolId:array($str);
 
-		// don't show it to the browser if publish state is set to "no"		
-		$publishState = $typeMetAssocArray["PublishState"][0];
-		if ($publishState == "no") {
-			continue;
-		}
-		
 		if(is_array($protocolName)){
 			$protocolName = $protocolName[0];
+		}
+		
+		$publishState = $typeMetAssocArray["PublishState"][0];
+		if ($publishState == "no") {
+		      continue;
 		}
 		
 		if(array_key_exists($protocolName, $protocols)){
@@ -160,6 +159,19 @@ download the data.
 			   $typeMet = $pType->getTypeMetadata()->toAssocArray();
 			   $typeNameStr = $typeMet["DataSetName"][0];
 			   $collabGroupStr = $typeMet["CollaborativeGroup"][0];
+
+
+			   // don't show it to the browser if publish state is set to "no"		
+		       $publishState = $typeMet["PublishState"][0];
+		       if ($publishState == "no") {
+			      continue;
+		       }
+			   
+			   // hidden SecurityGroup will be used somewhere else but here for
+			   // proof that it works
+		       $accessLevel = $typeMet["SecurityGroup"][0];
+			   echo "<!-- SecurityGroup: $accessLevel -->\n";
+			   
 			   $organStr = $typeMet["OrganSite"][0];
 			   $piStr = $typeMet["LeadPI"][0];
 			   echo "<li><span class=\"title\">".$typeNameStr." (<a href=\"./dataset.php?typeID=".$pType->getId()."\">".$xmlRpcMgr->getNumProducts($pType)." products</a>)</span><br/>\n";		
