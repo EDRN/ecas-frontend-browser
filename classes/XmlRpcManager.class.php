@@ -17,7 +17,11 @@ class XmlRpcManager {
 		try {
 			$this->client = new XML_RPC_Client($this->serverPath,$this->serverURL);
 		} catch (Exception $e) {
-			echo "<h4>Error creating XMLRPC client: " . $e.getMessage();
+			echo "<h4>Error creating XMLRPC client: " . $e.getMessage() . "</h4>";
+			exit();
+		}
+		if (!$this->client->server) {
+			echo "<h4>Error connecting to XMLRPC server. A connection could not be established.</h4>";
 			exit();
 		}
 	}
