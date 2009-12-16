@@ -6,15 +6,17 @@
 //
 //$Id$
 
-require_once ("login_status.php");
 require_once ("XML/RPC.php");
+require_once ("classes/EcasBrowser.class.php");
 require_once ("classes/Product.class.php");
 require_once ("classes/ProductPage.class.php");
 require_once ("classes/ProductType.class.php");
 require_once ("classes/XmlRpcManager.class.php");
 require_once ("config.php");
 require_once ("services/ExternalServices.class.php");
-require_once ("services/HTTPRequest.class.php");
+require_once ("services/EcasHttpRequest.class.php");
+
+$eb = new EcasBrowser($FILEMGR_URL,$EXTERNAL_SERVICES_PATH);
 
 function decode($str) {
 	$string = ereg_replace("%20", " ", $str);
@@ -28,40 +30,7 @@ function cmp($a, $b)
     return strcasecmp($a, $b);
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>EDRN ecas user interface</title>
-<!-- CSS Includes -->
-<link rel="stylesheet" type="text/css" href="assets/edrn-skin/css/edrn-informatics.css"/>
-<link rel="stylesheet" type="text/css" href="css/ecas-ui.css" />
-<link rel="stylesheet" type="text/css" href="css/metadata-visibility.css"/>
-<script type="text/javascript">
-  function $(id){
-    return document.getElementById(id);
-  }
-  function toggleDetails(id){
-    if ($(id + "Contents").style.display != 'none'){
-      $(id + "Contents").style.display = 'none';
-      $(id + "Toggler").innerHTML = 'more information [+]';
-    } else {
-      $(id + "Contents").style.display = 'block';
-      $(id + "Toggler").innerHTML = 'less information [-]';
-    }
-  }
-</script>
-</head>
-<body>
-<div id="edrninformatics">
-	<div id="edrnlogo"><!-- nci logo --></div>
-	<div id="edrn-dna"><!-- dna graphic --></div>
-	<h2 class="app-title">EDRN Catalog &amp; Archive Service</h2>
-	<div class="userdetails">
-		<?php checkLoginStatus($_SERVER["REQUEST_URI"])?>
-	</div>
-</div>
+<?php include ('views/common/ecas-header.inc.php')?>
 
 <?php
 
@@ -73,10 +42,8 @@ if (!isset ($_GET['typeID'])) {
 	exit ();
 }
 
-// Create an XmlRpcManager object to perform the work
-$xmlRpcMgr = new XmlRpcManager($filemgrUrl, '/');
 // Get the Product from its ProductId
-$productType = new ProductType($xmlRpcMgr->getProductTypeById($_GET['typeID']));
+$productType   = $eb->getProductType($_GET['typeID']);
 
 if ($productType->getId() == '') {
 	echo "<div class=\"error\" style=\"margin-top:60px;margin-left:10px;\">";
@@ -115,7 +82,7 @@ echo "onclick=\"toggleDetails('metadataDetails');\">less information [-]</div>";
 echo '<div class="searchCriteria" id="metadataDetailsContents" style="display:block;">';
 echo "<table id=\"metadataTable\" >";
 ##echo '<tr class="even"><td class="metadata-label">Abstract</td><td>' . $productType->getDescription() . '</td></tr>';
-$er = new ExternalServices($externalServicesPath);
+$er = new ExternalServices($EXTERNAL_SERVICES_PATH);
 $evenOddCounter = 1;
 $datasetMetArr = $metadata->toAssocArray();
 uksort($datasetMetArr, "cmp");
@@ -148,7 +115,7 @@ if ($_GET["reveal"]) {
 
 foreach ($datasetMetArr as $label => $value) {
 	if (isset ($er->services[$label])) {
-		$r = new HTTPRequest($er->services[$label] . "?id={$value[0]}");
+		$r = new EcasHttpRequest($er->services[$label] . "?id={$value[0]}");
 		$str = $r->DownloadToString();
 		$value = ($str == '') ? $value : array (
 			$str
@@ -211,9 +178,9 @@ $j = 1;
 
 do {
 	if ($j == 1) {
-		$thePage = $xmlRpcMgr->getFirstPage($productType);
+		$thePage = $eb->xmlrpc->getFirstPage($productType);
 	} else {
-		$thePage = $xmlRpcMgr->getNextPage($productType, $thePageObj);
+		$thePage = $eb->xmlrpc->getNextPage($productType, $thePageObj);
 	}
 
 	$j++;
@@ -234,7 +201,7 @@ if ($prodPage->getTotalPages() == 1) {
 	} else {
 		$numProducts = ($prodPage->getTotalPages() - 1) * $pageSize;
 		//get the last page
-		$lastPageXmlRpc = $xmlRpcMgr->getLastPage($productType);
+		$lastPageXmlRpc = $eb->xmlrpc->getLastPage($productType);
 		$lastPage = new ProductPage();
 		$lastPage->__initXmlRpc($lastPageXmlRpc);
 		$numProducts += count($lastPage->getPageProducts());
