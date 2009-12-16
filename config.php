@@ -15,14 +15,14 @@
  */
 
 // set this to the filemgr url that this UI will connect to
-$filemgrUrl = getenv("EDRN_ECAS_FILEMGR_URL");
+$FILEMGR_URL   = getenv("EDRN_ECAS_FILEMGR_URL");
 
 // set this to the url to the data delivery product server
 // Note: do not include a trailing slash ('/')
-$dataDelivUrl = getenv("EDRN_ECAS_DATA_DELIV_URL");
+$DATADELIV_URL = getenv("EDRN_ECAS_DATA_DELIV_URL");
 
 // set this to the path of the file containing the URLs for
 // the ecas mapping services 
-$externalServicesPath = "./services/services.txt";
+$EXTERNAL_SERVICES_PATH = "./services/services.txt";
 
 ?>
