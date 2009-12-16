@@ -12,14 +12,6 @@ html,body	{
 	font-size:14px;
 }
 
-#topStatus {
-	background:url('../assets/images/grayfade.png') top left repeat-x;
-	/*background-color:#eee;*/
-	height:40px;
-	width:100%;
-	text-align:right;
-}
-
 .sectionTitle	{
 	font-family:arial;
 	border-bottom:dotted 1px #ccc;
@@ -30,33 +22,7 @@ html,body	{
 #outerContainer {
 	margin:0px;
 }
-#console {
-	font-size:11px;
-	color:#333;
-	margin-top:1px;
-	border-bottom:solid 1px #ccc;
-	height:17px;
-}
-#consoleImage {
-	position:absolute;
-	top:180px;
-	left:270px;	
-}
-#viewMap {
-	display:block;	
-}
-#viewList {
-	display:none;
-}
-#textualSearchResults {	
-}
-#imageViewer{
-	float:left;
-	border:solid 1px #ccc;
-	margin-left:5px;
-	margin-top:5px;
-	display:none;	
-}
+
 .leftBox {
 	width:100%;
 	padding:5px;
@@ -89,15 +55,7 @@ html,body	{
 	float:left;
 	margin-top:5px;
 }
-.resultsMap {
-	float:left;
-	/*width:620px;
-	height:460px;*/
-	border:solid 1px #ccc;
-	margin:5px;
-	padding:5px;
-	/*background:url(lung_diagram.gif) top left no-repeat;*/
-}
+
 .rightColumn {
 	float:left;
 	width:200px;
@@ -147,42 +105,6 @@ html,body	{
 }
 .small {
 	font-size:0.8em;
-}
-
-.clickableResult {
-	cursor:pointer;
-	_cursor:hand;
-	color:#68f;
-	text-decoration:underline;
-}
-.imageMetadataBox {
-	border:solid 1px #ccc;
-	width:480px;
-	background-color:#555;
-	/* Cross Browser Opacity Headache */
-	filter: alpha(opacity=50);
-    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
-    -moz-opacity: 0.50;
-    opacity:0.5;
-    position:absolute;
-    top:150px;
-    left:500px;
-}
-.imageMetadataContent {
-	color:#fff;
-	font-size:1.0em;
-	padding:5px;
-	background:transparent;
-}
-.restoreMapLink {
-	position:absolute; 
-	top:22px;
-	left:850px;
-	font-size:0.9em;
-	filter: alpha(opacity=70);
-	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
-	-moz-opacity: 0.70;
-	opacity:0.7;
 }
 
 h5.section {
@@ -248,6 +170,23 @@ img.tn {
 	width:51px;
 	height:51px;
 }
+div.dataset-summary h2 {
+	position:relative;	
+}
+span.redBullet {
+	margin-left:5px;
+	margin-right:0px;
+	background:url(../assets/images/redbullet2.png) scroll 0px 2px no-repeat;
+	padding-right:20px;
+}
+span.datasetCount {
+	position:absolute;
+	top:4px;
+	right:0px;
+	color:#bbb;
+	font-size:80%;
+	text-transform:uppercase;
+}
 ul.sublist {
 	list-style:none;
 	list-style-position:outside;
@@ -261,6 +200,7 @@ ul.sublist li {
 	margin-left:45px;
 	padding:5px;
 	margin-bottom:15px;
+	display:none;
 }
 ul.sublist li span.title {
 	font-weight:bold;
@@ -278,10 +218,6 @@ div#splash-image {
 	font-size:90%;
 	margin-top:5px;
 	padding-left:10px;
-}
-
-img#splash-logo {
-		
 }
 
 div.splash-intro {
@@ -349,9 +285,17 @@ h1.dataset-name {
 	padding-bottom:8px;
 	border-bottom:solid 1px #ccc;	
 }
-div#breadcrumbs a {
-	color:#fff;	
-}
+
 div#footer {
 	width:100%;
+}
+
+div.dataset-list h2.sectionTitle {
+	font-size:20px;
+	margin-top:20px;
+	color:#993231;
+	border-bottom:dotted 1px #456;
+	padding-bottom:2px;
+	padding-top:5px;
+	padding-left:3px;
 }
