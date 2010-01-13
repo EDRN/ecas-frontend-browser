@@ -257,7 +257,5 @@ for ($i = $startPage; $i <= $endPage; $i++) {
 </div>
 
 </div><!-- End 'right side' -->
-<div style=\"clear:both;\"></div>
-
-</body>
-</html>
+<br class="clr"/>
+<?php include('views/common/ecas-footer.inc.php'); ?>
