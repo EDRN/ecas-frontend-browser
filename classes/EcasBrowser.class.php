@@ -130,6 +130,18 @@ class EcasBrowser {
 		return $returnTypes;
 	}
 	
+	public function getProduct($id) {
+		return new Product($this->xmlrpc->getProductById($id));
+	}
+	
+	public function getProductReferences($product) {
+		return $this->xmlrpc->getproductreferences($product);
+	}
+	
+	public function getMetadata($product) {
+		return $this->xmlrpc->getMetadata($product);
+	}
+	
 	public function displayDatasetSummary($productType) {
 				
 		// Get some metadata elements to display
