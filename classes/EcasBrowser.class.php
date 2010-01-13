@@ -83,6 +83,9 @@ class EcasBrowser {
 			$protocols[$protocolName][$type->getName()] = $type;
 		}
 		
+		// Sort protocols by name
+		uksort($protocols,"eb_protocolSort");
+		
 		// Finally, generate the list of protocols (dataset collections)
 		echo "<div class=\"dataset-summary\">";
 		foreach ($protocols as $protName => $datasets) {
@@ -111,6 +114,7 @@ class EcasBrowser {
 	
 	public function getProductTypes($ignores = array()) {
 		$typeArray   = $this->xmlrpc->getProductTypes();
+		uasort($typeArray,"eb_productTypeSort");
 		
 		// Skip those product types that should be ignored
 		$returnTypes = array();
@@ -177,4 +181,23 @@ class EcasBrowser {
 		return $string;
 	}
 }
+
+/*
+ * CUSTOM SORT FUNCTIONS
+ */
+
+// Sort Protocols by name
+function eb_protocolSort($a, $b){
+	return strcasecmp($a, $b);
+}
+
+// Sort ProductTypes by name
+function eb_productTypeSort($a, $b){
+	
+	$prodType1 = new ProductType($a);
+	$prodType2 = new ProductType($b);
+
+	return strcasecmp($prodType1->getName(), $prodType2->getName());
+}
+
 ?>
