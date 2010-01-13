@@ -5,30 +5,25 @@
 //
 //$Id$
 
-require_once("login_status.php");
 require_once("XML/RPC.php");
+require_once("classes/EcasBrowser.class.php");
 require_once("classes/Product.class.php");
 require_once("classes/ProductType.class.php");
 require_once("classes/XmlRpcManager.class.php");
 require_once("config.php");
 
 require_once("services/ExternalServices.class.php");
-require_once("services/HTTPRequest.class.php");
+require_once("services/EcasHttpRequest.class.php");
 
 function decode($str){
 	$string = ereg_replace("%20"," ",$str);
 	return $string;
 }
+
+$eb = new EcasBrowser($FILEMGR_URL,$EXTERNAL_SERVICES_PATH);
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>EDRN ecas user interface</title>
-<!-- CSS Includes -->
-<link rel="stylesheet" type="text/css" href="assets/edrn-skin/css/edrn-informatics.css"/>
-<link rel="stylesheet" type="text/css" href="css/ecas-ui.css" />
+<?php include ('views/common/ecas-header.inc.php')?>
+
 <link rel="stylesheet" type="text/css" href="css/metadata-visibility.css" />
 <script type="text/javascript">
   function $(id){
@@ -44,16 +39,6 @@ function decode($str){
     }
   }
 </script>
-</head>
-<body>
-<div id="edrninformatics">
-	<div id="edrnlogo"><!-- nci logo --></div>
-	<div id="edrn-dna"><!-- dna image --></div>
-	<h2 class="app-title">EDRN Catalog &amp; Archive Service</h2>
-	<div class="userdetails">
-		<?php checkLoginStatus($_SERVER["REQUEST_URI"])?>
-	</div>
-</div>
 <?php 
 /**
  * Ensure that a product ID has been specified.
@@ -63,10 +48,9 @@ if (!isset($_GET['productID'])){
 	exit();
 }
 
-// Create an XmlRpcManager object to perform the work
-$xmlRpcMgr   = new XmlRpcManager($filemgrUrl,'/');
+
 // Get the Product from its ProductId
-$product     = new Product($xmlRpcMgr->getProductById($_GET['productID']));
+$product     = $eb->getProduct($_GET['productID']);
 if ($product->getId() == ''){
 	echo "<div class=\"error\">";
 	echo "Error encountered while attempting to retrieve product data: <br/>";
@@ -79,7 +63,7 @@ if ($product->getId() == ''){
 // Get the ProductType from the Product
 $productType = $product->getType();
 // Get the Product References 
-$references  = $xmlRpcMgr->getProductReferences($product);
+$references  = $eb->getProductReferences($product);
 if (isset($references['faultCode'])){
 	echo "<div class=\"error\">";
 	echo "Error encountered while attempting to retrieve product references.<br/>";
@@ -90,7 +74,7 @@ if (isset($references['faultCode'])){
 }
 
 // Get the Product Metadata for the product
-$metadata    = $xmlRpcMgr->getMetadata($product);
+$metadata    = $eb->getMetadata($product);
 if (isset($metadata['faultCode'])) {
 	echo "<div class=\"error\">";
 	echo "Error encountered while attempting to retrieve product metadata.<br/>";
@@ -142,11 +126,11 @@ echo '<div class="detailsToggler" id="metadataDetailsToggler" ';
 echo "onclick=\"toggleDetails('metadataDetails');\">less information [-]</div>";
 echo '<div class="searchCriteria" id="metadataDetailsContents" style="display:block;">';
 echo "<table id=\"metadataTable\" >";
-$er = new ExternalServices($externalServicesPath);
+$er = new ExternalServices($EXTERNAL_SERVICES_PATH);
 $evenOddCounter = 0;
 foreach ($metadata as $label => $value){
 	if (isset($er->services[$label])){
-		$r = new HTTPRequest($er->services[$label]."?id={$value[0]}");
+		$r = new EcasHttpRequest($er->services[$label]."?id={$value[0]}");
 		$str = $r->DownloadToString();
 		$value = ($str == '')? $value : array($str);
 	}
@@ -224,5 +208,7 @@ echo "</table>";
 </div><!-- End 'right side' -->
 <div style=\"clear:both;\"></div>
 </div><!-- End outer container -->
+<br class="clr"/>
+<?php include('views/common/ecas-footer.inc.php'); ?>
 </body>
 </html>
