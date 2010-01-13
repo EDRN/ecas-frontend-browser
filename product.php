@@ -210,5 +210,3 @@ echo "</table>";
 </div><!-- End outer container -->
 <br class="clr"/>
 <?php include('views/common/ecas-footer.inc.php'); ?>
-</body>
-</html>
