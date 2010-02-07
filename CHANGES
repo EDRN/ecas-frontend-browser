@@ -2,6 +2,25 @@ EDRN JIRA site: http://oodt.jpl.nasa.gov/jira/browse/CA
 
 
 
+Release Notes - Early Detection of Cancer - Version  eCAS Browser beta 0.4.8 release - 02/07/2010
+
+
+** Bug
+    * [CA-476] - Links to data web services in eCAS browser are broke
+
+** Improvement
+    * [CA-452] - eCAS Browser should die cleanly if connection to XMLRpcFileMgr can not be established
+    * [CA-460] - update the edrn-skin package to apply recent look-and-feel changes in portal to eCAS and BMDB
+    * [CA-461] - improve eCAS Browser codebase to be more modular, more OO
+    * [CA-462] - improve the user experience on the eCAS Browser homepage
+
+** New Feature
+    * [CA-454] - Create RDF from eCAS to support only published data sent to NCI Plone 2.0 Portal
+
+
+
+
+
 Release Notes - Early Detection of Cancer - Version  eCAS Browser beta 0.4.7 release - 11/11/2009
 
 

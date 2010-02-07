@@ -159,7 +159,7 @@ echo '<div class="detailsToggler" id="downloadDetailsToggler" ';
 echo "onclick=\"toggleDetails('downloadDetails');\">less information [-]</div>";
 echo '<div class="searchCriteria" id="downloadDetailsContents" style="display:block;">';
 echo "<table id=\"metadataTable\" >";
-echo "<tr class=\"even\"><td>Download Zip Archive:</td><td style=\"text-align:center\"><a href=\"$dataDelivUrl/dataset?typeID={$_GET['typeID']}&format=application/x-zip\">Click Here</td></tr>";
+echo "<tr class=\"even\"><td>Download Zip Archive:</td><td style=\"text-align:center\"><a href=\"$DATADELIV_URL/dataset?typeID={$_GET['typeID']}&format=application/x-zip\">Click Here</td></tr>";
 echo "</table>";
 echo "</div>";
 echo "</div>";

@@ -151,7 +151,7 @@ echo '<div class="detailsToggler" id="downloadDetailsToggler" ';
 echo "onclick=\"toggleDetails('downloadDetails');\">less information [-]</div>";
 echo '<div class="searchCriteria" id="downloadDetailsContents" style="display:block;">';
 echo "<table id=\"metadataTable\" >";
-echo "<tr class=\"even\"><td>Download Zip Archive:</td><td style=\"text-align:center\"><a href=\"$dataDelivUrl/data?productID={$_GET['productID']}&format=application/x-zip\">Click Here</td></tr>";
+echo "<tr class=\"even\"><td>Download Zip Archive:</td><td style=\"text-align:center\"><a href=\"$DATADELIV_URL/data?productID={$_GET['productID']}&format=application/x-zip\">Click Here</td></tr>";
 echo "</table>";
 echo "</div>";
 echo "</div>";
@@ -183,7 +183,7 @@ foreach ($references as $reference){
 	echo "<tr>";
 	echo "<td>";
 	if ($reference['mimeType'] == 'image/jpeg') {
-		echo "<img class=\"tn\" src=\"".$dataDelivUrl."/data?refIndex=$referenceCounter&productID={$product->getID()}\">";	
+		echo "<img class=\"tn\" src=\"".$DATADELIV_URL."/data?refIndex=$referenceCounter&productID={$product->getID()}\">";	
 	} else {
 		echo "&nbsp;";
 	}
@@ -191,11 +191,11 @@ foreach ($references as $reference){
 	echo "<td style=\"vertical-align:top;\">".decode($fileName)." <br/><span style=\"color:#555;font-size:0.9em;\">$fileSizeStr</span><br/>";
 	echo "Mime Type: $reference[mimeType]<br/>";
 	if($reference['mimeType'] == 'image/jpeg') {
-		echo "&nbsp;<a href=\"".$dataDelivUrl."/data?refIndex=$referenceCounter&productID={$product->getID()}\" target=\"_new\">view</a> &nbsp;";
+		echo "&nbsp;<a href=\"".$DATADELIV_URL."/data?refIndex=$referenceCounter&productID={$product->getID()}\" target=\"_new\">view</a> &nbsp;";
 		echo "<a href=\"getImage.php?productID={$product->getID()}&refNumber=$referenceCounter&fileName=$fileName\">save</a>&nbsp;";	
 	}
 	else{
-		echo "<a href=\"".$dataDelivUrl."/data?refIndex=$referenceCounter&productID={$product->getID()}\">save</a> &nbsp;";		
+		echo "<a href=\"".$DATADELIV_URL."/data?refIndex=$referenceCounter&productID={$product->getID()}\">save</a> &nbsp;";		
 	}
 		
 	echo "</td>";
