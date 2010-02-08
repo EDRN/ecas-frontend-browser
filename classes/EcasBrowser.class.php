@@ -182,15 +182,14 @@ class EcasBrowser {
 	}
 	
 	private function checkLoginStatus() {
-		return "logged in as guest";
-		/*
+
 		$referrer = $_SERVER['REQUEST_URI'];
 		$edrnAuth = new Gov_Nasa_Jpl_Edrn_Security_EDRNAuthentication();
 		
 		return ($edrnAuth->isLoggedIn()) 
 			? "Logged in as {$edrnAuth->getCurrentUsername()}. <a href=\"logout.php?from={$referrer}\">Log Out</a>"
 			: "Not logged in. <a href=\"login.php?from={$referrer}\">Log in</a>";
-		*/
+
 	}	
 	
 	public function decode($str){
