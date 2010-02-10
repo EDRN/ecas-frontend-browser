@@ -33,7 +33,7 @@ $eb = new EcasBrowser($FILEMGR_URL,$EXTERNAL_SERVICES_PATH);
 
 <div class="dataset-list">
 	<h2 class="sectionTitle">Datasets By Protocol</h2>
-	<?php $eb->displayDatasetsbyProtocol(array('onlyAccepted'=>true,'ignore'=>array('eCASFile'))); ?>
+	<?php $eb->displayDatasetsbyProtocol(array('ignore'=>array('eCASFile'))); ?>
 </div>
 
 <?php include('views/common/ecas-footer.inc.php'); ?>

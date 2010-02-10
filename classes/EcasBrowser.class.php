@@ -85,44 +85,39 @@ class EcasBrowser {
 				? $protocolId	// No translation available, use the ID
 				: $str;			// Use the translated value
 			
-			// Filter unpublished datasets if 'onlyPublished' option is set
-			if (isset($options['onlyPublished']) && $options['onlyPublished'] == true) {
-				$publishState = $typeMetAssocArray["PublishState"][0];
-				if ($publishState == "no") {
-				      continue;
-				}
+			// Test if the QAState is 'accepted', in which case anyone
+			// should be able to see the dataset
+			$bIsAccepted = false;
+			if (isset($typeMetAssocArray['QAState'])) {
+				$bIsAccepted = (strtolower($typeMetAssocArray['QAState'][0]) == "accepted");
 			}
 			
-			// Only show accepted datasets if 'onlyAccepted' option is set
-			if (isset($options['onlyAccepted']) && $options['onlyAccepted'] == true) {
-				if (isset($typeMetAssocArray['QAState'])) {
-					$qastate = strtolower($typeMetAssocArray['QAState'][0]);
-					if ($qastate != 'accepted') {
+			// If an authenticated user is present...
+			if ($this->loginStatus == true) {
+				// If the QAState is NOT 'accepted' then use LDAP groups
+				// to determine whether or not the dataset should be visible
+				if (!$bIsAccepted) {
+					// If at least one of the "AccessGrantedTo" metadata values for
+					// a given dataset matches an LDAP group associated with the currently logged
+					// in user, then the dataset should be made visible. Otherwise it is hidden.
+
+					// Get the LDAP groups that should have access to this dataset
+					$datasetAccessGroups = isset($typeMetAssocArray['AccessGrantedTo'])
+						? $typeMetAssocArray['AccessGrantedTo']
+						: array();
+						
+					// Compare against access groups for the currently logged in user
+					$ix = array_intersect($datasetAccessGroups,$this->loginGroups);
+					if (empty($ix)) {
+						// No access groups match the groups for the currently logged in
+						// user, and QAState !='accepted' so this dataset should not be shown.
 						continue;
 					}
-				} else {
-					// The dataset did not have 'QAState' metadata, so default is to
-					// not show the dataset.
-					continue;	
 				}
-			}
-			
-			// If a user is logged in, filter the results based on that user's LDAP group
-			// associations. If at least one of the "AccessGrantedTo" metadata values for
-			// a given dataset matches an LDAP group associated with the currently logged
-			// in user, then the dataset should be made visible. Otherwise it is hidden.
-			//
-			if ($this->loginStatus == true) {
-				// Get the LDAP groups that should have access to this dataset
-				$datasetAccessGroups = isset($typeMetAssocArray['AccessGrantedTo'])
-					? $typeMetAssocArray['AccessGrantedTo']
-					: array();
-					
-				// Compare against access groups for the currently logged in user
-				$ix = array_intersect($datasetAccessGroups,$this->loginGroups);
-				if (empty($ix)) {
-					// No access groups match the groups for the currently logged in
-					// user, so this dataset should not be shown.
+			} else {
+				// No authenticated user is present..
+				if (!$bIsAccepted) {
+					// The dataset is not QAState='accepted' so do not show it.
 					continue;
 				}
 			}
