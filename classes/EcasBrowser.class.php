@@ -15,6 +15,7 @@
  * @author ahart
  *
  */
+require_once "Gov/Nasa/Jpl/Edrn/Security/EDRNAuth.php";
 class EcasBrowser {
 	
 	public $xmlrpc;
@@ -22,6 +23,10 @@ class EcasBrowser {
 	private $externalServices;
 	
 	private $loginStatus;
+	private $loginUsername;
+	private $loginGroups;
+	
+	private $edrnAuth;
 	
 	public function __construct($CasFileManagerUrl,$externalServicesConfigPath) {
 		// Create an XML_RPC manager
@@ -29,9 +34,18 @@ class EcasBrowser {
 		
 		// Create a new repository of external services
 		$this->externalServices = new ExternalServices($externalServicesConfigPath);
+		
+		// Create an instance of the EDRN security service
+		$this->edrnAuth = new Gov_Nasa_Jpl_Edrn_Security_EDRNAuthentication();
 
-		// Check the login status of the current user
-		$this->loginStatus = $this->checkLoginStatus();
+		// Check and store details about the login status of the current user
+		$this->loginStatus   = $this->edrnAuth->isLoggedIn();
+		$this->loginUsername = ($this->loginStatus)
+			? $this->edrnAuth->getCurrentUsername()
+			: false; 
+		$this->loginGroups   = ($this->loginStatus)
+			? $this->edrnAuth->retrieveGroupsForUser($this->loginUsername)
+			: array();
 	}
 	
 	
@@ -90,6 +104,26 @@ class EcasBrowser {
 					// The dataset did not have 'QAState' metadata, so default is to
 					// not show the dataset.
 					continue;	
+				}
+			}
+			
+			// If a user is logged in, filter the results based on that user's LDAP group
+			// associations. If at least one of the "AccessGrantedTo" metadata values for
+			// a given dataset matches an LDAP group associated with the currently logged
+			// in user, then the dataset should be made visible. Otherwise it is hidden.
+			//
+			if ($this->loginStatus == true) {
+				// Get the LDAP groups that should have access to this dataset
+				$datasetAccessGroups = isset($typeMetAssocArray['AccessGrantedTo'])
+					? $typeMetAssocArray['AccessGrantedTo']
+					: array();
+					
+				// Compare against access groups for the currently logged in user
+				$ix = array_intersect($datasetAccessGroups,$this->loginGroups);
+				if (empty($ix)) {
+					// No access groups match the groups for the currently logged in
+					// user, so this dataset should not be shown.
+					continue;
 				}
 			}
 			
@@ -184,12 +218,18 @@ class EcasBrowser {
 	private function checkLoginStatus() {
 
 		$referrer = $_SERVER['REQUEST_URI'];
-		$edrnAuth = new Gov_Nasa_Jpl_Edrn_Security_EDRNAuthentication();
 		
-		return ($edrnAuth->isLoggedIn()) 
-			? "Logged in as {$edrnAuth->getCurrentUsername()}. <a href=\"logout.php?from={$referrer}\">Log Out</a>"
-			: "Not logged in. <a href=\"login.php?from={$referrer}\">Log in</a>";
-
+		if ($this->edrnAuth->isLoggedIn()) {
+			$this->loginStatus   = true;
+			$this->loginUsername = $this->edrnAuth->getCurrentUsername(); 
+			$this->loginGroups   = $this->edrnAuth->retrieveGroupsForUser($this->loginUsername);
+			return "Logged in as {$this->loginUsername}. < a href=\"logout.php?from={$referrer}\">Log Out</a>";
+		} else {
+			$this->loginStatus   = false;
+			$this->loginUsername = false;
+			$this->loginGroups   = array();
+			return "Not logged in. <a href=\"login.php?from={$referrer}\">Log in</a>";
+		}
 	}	
 	
 	public function decode($str){
