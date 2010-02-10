@@ -210,7 +210,7 @@ class EcasBrowser {
 		return $this->loginStatus;
 	}
 	
-	private function checkLoginStatus() {
+	public function checkLoginStatus() {
 
 		$referrer = $_SERVER['REQUEST_URI'];
 		
@@ -218,7 +218,7 @@ class EcasBrowser {
 			$this->loginStatus   = true;
 			$this->loginUsername = $this->edrnAuth->getCurrentUsername(); 
 			$this->loginGroups   = $this->edrnAuth->retrieveGroupsForUser($this->loginUsername);
-			return "Logged in as {$this->loginUsername}. < a href=\"logout.php?from={$referrer}\">Log Out</a>";
+			return "Logged in as {$this->loginUsername}. <a href=\"logout.php?from={$referrer}\">Log Out</a>";
 		} else {
 			$this->loginStatus   = false;
 			$this->loginUsername = false;

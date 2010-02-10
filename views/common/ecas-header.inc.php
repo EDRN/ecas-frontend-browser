@@ -29,5 +29,5 @@
 
 	<div id="edrn-dna"><!-- dna graphic --></div>
 	<h2 class="app-title">EDRN Catalog &amp; Archive Service</h2>
-	<div class="userdetails"><?php echo $eb->getLoginStatus();?></div>
+	<div class="userdetails"><?php echo $eb->checkLoginStatus();?></div>
 </div>
