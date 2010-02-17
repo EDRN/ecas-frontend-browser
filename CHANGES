@@ -1,6 +1,24 @@
 EDRN JIRA site: http://oodt.jpl.nasa.gov/jira/browse/CA
 
 
+Release Notes - Early Detection of Cancer - Version eCAS Browser beta 0.4.9 release - 02/16/2010
+
+
+
+** Improvement
+    * [CA-488] - Let the user know if results have been filtered
+    * [CA-494] - Provide dataset-level authorization checks
+    * [CA-495] - Provide product-level authorization checks
+    * [CA-496] - Provide a view indicating that a user is not authorized to view a particular resource
+
+** New Feature
+    * [CA-484] - Make dataset visibility conditional upon QAState "accepted" if user not logged in
+    * [CA-485] - Make  dataset visibility conditional upon "Access Granted To" clauses + QAState if user is logged in
+    * [CA-490] - Add QAState and AccessGrantedTo RDF spec to eCAS RDF service
+
+
+
+
 
 Release Notes - Early Detection of Cancer - Version  eCAS Browser beta 0.4.8 release - 02/07/2010
 

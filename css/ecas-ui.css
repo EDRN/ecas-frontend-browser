@@ -181,11 +181,13 @@ span.redBullet {
 }
 span.datasetCount {
 	position:absolute;
-	top:4px;
-	right:0px;
+	top:5px;
+	right:-115px;
+	width:110px;
 	color:#bbb;
 	font-size:80%;
 	text-transform:uppercase;
+	text-align:right;
 }
 ul.sublist {
 	list-style:none;

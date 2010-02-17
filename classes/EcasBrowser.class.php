@@ -69,6 +69,7 @@ class EcasBrowser {
 	public function displayDatasetsbyProtocol($options = array()) {
 		
 		$protocols = array();	// The master array of protocols (dataset collections)
+		$filtered  = 0;
 		
 		// Get all product types
 		$productTypes = $this->getProductTypes((isset($options['ignore']) ? $options['ignore'] : array()));
@@ -78,6 +79,7 @@ class EcasBrowser {
 			
 			// Get the translated value for protocol name from the provided protocol id
 			$protocolId = $type->getTypeMetadata()->getMetadata('ProtocolName');
+			$typeMetAssocArray = $type->getTypeMetadata()->toAssocArray(); 
 		 	$response = new EcasHttpRequest(
 		 		"{$this->externalServices->services['ProtocolName']}?id={$protocolId}");
 			$str = $response->DownloadToString();
@@ -111,6 +113,7 @@ class EcasBrowser {
 					if (empty($ix)) {
 						// No access groups match the groups for the currently logged in
 						// user, and QAState !='accepted' so this dataset should not be shown.
+						$filtered++;
 						continue;
 					}
 				}
@@ -118,6 +121,7 @@ class EcasBrowser {
 				// No authenticated user is present..
 				if (!$bIsAccepted) {
 					// The dataset is not QAState='accepted' so do not show it.
+					$filtered++;
 					continue;
 				}
 			}
@@ -130,9 +134,14 @@ class EcasBrowser {
 		uksort($protocols,"eb_protocolSort");
 		
 		// Finally, generate the list of protocols (dataset collections)
+		if ($filtered > 0) {
+			
+			$plural = ($filtered != 1) ? 's':'';
+			echo "<div class=\"notice\"><strong>Note:</strong> {$filtered} additional dataset{$plural} not shown due to security restrictions</div>";
+		}
 		echo "<div class=\"dataset-summary\">";
 		foreach ($protocols as $protName => $datasets) {
-			echo "<h2>
+			echo "<h2 style=\"margin-right:100px\">
 					<span class=\"redBullet\">&nbsp;</span>
 						{$protName} <span class=\"datasetCount\">datasets: ".count($datasets)."</span>
 				  </h2>";
@@ -145,6 +154,70 @@ class EcasBrowser {
 		echo "</div>";
 	}
 	
+	
+	/**
+	 * isDatasetAccessible
+	 * Determine whether or not a particular dataset is accessible by
+	 * any of a provided set of user LDAP groups.
+	 * 
+	 * @param $datasetID    - the dataset to check
+	 * @param $userGroups   - the set of user groups to test
+	 * @return boolean      - true if dataset is visible to at least one of $userGroups
+	 */
+	public function isDatasetAccessible($datasetID,$userGroups) {
+		if (($pt = $this->getProductType($datasetID)) != null) {
+			$qastate = strtolower( $pt->getTypeMetadata()->getMetadata('QAState') );
+			$datasetAccessGroups = $pt->getTypeMetadata()->getMetadata('AccessGrantedTo');
+			
+			// QAState overrides all...
+			if ($qastate == "accepted") { return true; }
+			
+			// Test permission groups
+			if (is_array($datasetAccessGroups))	{
+				$ix = array_intersect($datasetAccessGroups,$userGroups);
+				return (!empty($ix));
+			} else {
+				// No permission match
+				return false;
+			}
+		} else {
+			// No such dataset
+			return false;
+		}
+	}
+	
+	
+	/**
+	 * isProductAccessible
+	 * Determine whether or not a particular dataset is accessible by
+	 * any of a provided set of user LDAP groups.
+	 * 
+	 * @param $productID    - the productID to check
+	 * @param $userGroups   - the set of user groups to test
+	 * @return boolean      - true if product is visible to at least one of $userGroups
+	 */
+	public function isProductAccessible($productID,$userGroups) {
+		if (($p = $this->getProduct($productID)) != null) {
+			$pt = $this->getProductType($p->getType()->getId());
+			$qastate = strtolower( $pt->getTypeMetadata()->getMetadata('QAState') );
+			$datasetAccessGroups = $pt->getTypeMetadata()->getMetadata('AccessGrantedTo');
+			
+			// QAState overrides all...
+			if ($qastate == "accepted") { return true; }
+			
+			// Test permission groups
+			if (is_array($datasetAccessGroups))	{
+				$ix = array_intersect($datasetAccessGroups,$userGroups);
+				return (!empty($ix));
+			} else {
+				// No permission match
+				return false;
+			}
+		} else {
+			// No such product
+			return false;
+		}
+	}
 	
 	
 	/************************************************************************

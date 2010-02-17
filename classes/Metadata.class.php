@@ -64,7 +64,17 @@ class Metadata {
 	}
 
 	function getMetadata($key) {
-		return $this->elemMap[$key][0];
+		if (!isset($this->elemMap[$key])) {
+			// Return false if key does not exist
+			return false;
+		}
+		if (count($this->elemMap[$key]) > 1) {
+			// Return multi-valued metadata elems as an array
+			return $this->elemMap[$key];
+		} else {
+			// Return single-valued metadata elems as a string
+			return $this->elemMap[$key][0];
+		}
 	}
 
 	function containsKey($key) {
