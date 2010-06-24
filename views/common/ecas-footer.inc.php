@@ -22,5 +22,7 @@
 	</a>
 </div>
 
+</div><!-- End EDRNINFORMATICS -->
+
 </body>
 </html>

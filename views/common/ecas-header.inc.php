@@ -22,12 +22,21 @@
 <link rel="stylesheet" type="text/css" href="css/ecas-ui.css" />
 </head>
 <body>
-<div id="edrninformatics">
-	<div id="edrnlogo"><strong>Early Detection Research Network</strong><br/>
-		<span class="smaller">Division of Cancer Prevention</span>
-	 </div>
-
-	<div id="edrn-dna"><!-- dna graphic --></div>
-	<h2 class="app-title">EDRN Catalog &amp; Archive Service</h2>
-	<div class="userdetails"><?php echo $eb->checkLoginStatus();?></div>
+<div id="ncibanner">
+	<div id="ncibanner-inner">
+	  <a href="http://www.cancer.gov/"><h2 class="ncilogo">National Cancer Institute</h2></a>
+	  <a href="http://www.cancer.gov/"><h2 class="cdglogo">www.cancer.gov</h2></a>
+	  <a href="http://www.nih.gov/"><h2 class="nihlogo">National Institutes of Health</h2></a>
+	</div>
 </div>
+<br class="clr"/>
+<div id="edrnlogo">
+	<h1>Early Detection Research Network</h1>
+	<h2>Research and development of biomarkers and technologies for the clinical application of early cancer detection strategies</h2>
+</div>
+<div id="dcplogo">
+	<a href="http://prevention.cancer.gov"><h2 class="dcplogo">Division of Cancer Prevention</h2></a>
+</div>
+<div class="userdetails"><?php echo $eb->checkLoginStatus();?></div>
+<div id="edrninformatics">
+	<h2 class="app-title">EDRN Catalog &amp; Archive Service</h2>
