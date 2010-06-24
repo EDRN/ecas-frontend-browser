@@ -48,7 +48,7 @@ require_once("login_status.php");
 <div id="dcplogo">
 	<a href="http://prevention.cancer.gov"><h2 class="dcplogo">Division of Cancer Prevention</h2></a>
 </div>
-<div class="userdetails"><?php echo $eb->checkLoginStatus();?></div>
+<div class="userdetails"><?php echo checkLoginStatus($_SERVER["REQUEST_URI"]);?></div>
 <div id="edrninformatics">
 	<h2 class="app-title">EDRN Catalog &amp; Archive Service</h2>
 	
