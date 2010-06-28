@@ -31,8 +31,9 @@
 </div>
 <br class="clr"/>
 <div id="edrnlogo">
-	<h1>Early Detection Research Network</h1>
-	<h2>Research and development of biomarkers and technologies for the clinical application of early cancer detection strategies</h2>
+	<h1 class="header-title">
+		<img id="edrnlogo-logo" src="./assets/edrn-skin/img/edrn-logo.png"/>Early Detection Research Network</h1>
+	<h2 class="header-title">Research and development of biomarkers and technologies for the clinical application of early cancer detection strategies</h2>
 </div>
 <div id="dcplogo">
 	<a href="http://prevention.cancer.gov"><h2 class="dcplogo">Division of Cancer Prevention</h2></a>
