@@ -18,6 +18,9 @@
 require_once "Gov/Nasa/Jpl/Edrn/Security/EDRNAuth.php";
 class EcasBrowser {
 	
+	const RESTRICTED = 0;	// Used to indicate content not accessible to the current user
+	const ACCESSIBLE = 1;	// Used to indicate content that is accessible to the current user
+	
 	public $xmlrpc;
 	
 	private $externalServices;
@@ -114,6 +117,7 @@ class EcasBrowser {
 						// No access groups match the groups for the currently logged in
 						// user, and QAState !='accepted' so this dataset should not be shown.
 						$filtered++;
+						$protocols[$protocolName][$type->getName()] = array(EcasBrowser::RESTRICTED,$type);
 						continue;
 					}
 				}
@@ -122,12 +126,13 @@ class EcasBrowser {
 				if (!$bIsAccepted) {
 					// The dataset is not QAState='accepted' so do not show it.
 					$filtered++;
+					$protocols[$protocolName][$type->getName()] = array(EcasBrowser::RESTRICTED,$type);
 					continue;
 				}
 			}
 			
 			// Add the product type to the appropriate protocol
-			$protocols[$protocolName][$type->getName()] = $type;
+			$protocols[$protocolName][$type->getName()] = array(EcasBrowser::ACCESSIBLE,$type);
 		}
 		
 		// Sort protocols by name
@@ -137,7 +142,7 @@ class EcasBrowser {
 		if ($filtered > 0) {
 			
 			$plural = ($filtered != 1) ? 's':'';
-			echo "<div class=\"notice\"><strong>Note:</strong> {$filtered} additional dataset{$plural} not shown due to security restrictions</div>";
+			echo "<div class=\"notice\"><strong>Note:</strong> some dataset{$plural} not available due to security restrictions.</div>";
 		}
 		echo "<div class=\"dataset-summary\">";
 		foreach ($protocols as $protName => $datasets) {
@@ -262,7 +267,20 @@ class EcasBrowser {
 		return $this->xmlrpc->getMetadata($product);
 	}
 	
-	public function displayDatasetSummary($productType) {
+	/**
+	 * Display summary information about a dataset
+	 * 
+	 * @param $dsInfo array  An array consisting of two elements:
+	 *   [0] A security designation indicating the availability of the content
+	 *       in the context of the current user. This will be one of
+	 *       EcasBrowser::ACCESSIBLE or EcasBrowser::RESTRICTED
+	 *       
+	 *   [1] A ProductType object representing the dataset
+	 */
+	public function displayDatasetSummary($dsInfo) {
+		
+		$accessibility = $dsInfo[0];
+		$productType   = $dsInfo[1]; 
 				
 		// Get some metadata elements to display
 		$id              = $productType->getId();
@@ -274,7 +292,11 @@ class EcasBrowser {
 		   
 		// Display the product type summary information
 		echo "<li>";
-		echo "<span class=\"title\">{$name} (<a href=\"./dataset.php?typeID={$id}\">{$productCount} products</a>)</span><br/>\n";		
+		if ($accessibility == EcasBrowser::ACCESSIBLE) {
+			echo "<span class=\"title\">{$name} (<a href=\"./dataset.php?typeID={$id}\">{$productCount} products</a>)</span><br/>\n";		
+		} else {
+			echo "<span class=\"title restricted\">{$name} (<span class=\"restricted\">{$productCount} products</span></span><br/>\n";
+		}
 		echo "<span class=\"details\">[ PI: {$pi}, Organ: {$organName}, Collaborative Group: {$collabGroupName} ]</span><br/>";
 		echo "</li>";
 	}
