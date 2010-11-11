@@ -142,7 +142,9 @@ class EcasBrowser {
 		if ($filtered > 0) {
 			
 			$plural = ($filtered != 1) ? 's':'';
-			echo "<div class=\"notice\"><strong>Note:</strong> some dataset{$plural} not available due to security restrictions.</div>";
+			echo "<div class=\"notice\">"
+			  . "<img src=\"assets/images/lock-icon.png\" style=\"width:24px;\" />"
+			  . "<strong>Note:</strong> some dataset{$plural} not available due to security restrictions.</div>";
 		}
 		echo "<div class=\"dataset-summary\">";
 		foreach ($protocols as $protName => $datasets) {
@@ -295,6 +297,7 @@ class EcasBrowser {
 		if ($accessibility == EcasBrowser::ACCESSIBLE) {
 			echo "<span class=\"title\">{$name} (<a href=\"./dataset.php?typeID={$id}\">{$productCount} products</a>)</span><br/>\n";		
 		} else {
+		        echo "<img src=\"assets/images/lock-icon.png\" style=\"width:24px;\"/>";
 			echo "<span class=\"title restricted\">{$name} (<span class=\"restricted\">{$productCount} products</span></span><br/>\n";
 		}
 		echo "<span class=\"details\">[ PI: {$pi}, Organ: {$organName}, Collaborative Group: {$collabGroupName} ]</span><br/>";
