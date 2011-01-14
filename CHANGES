@@ -2,6 +2,21 @@ EDRN JIRA site: http://oodt.jpl.nasa.gov/jira/browse/CA
 
 
 
+Release Notes - Early Detection of Cancer - Version eCAS Browser beta 0.4.9.2 release - 01/13/2011
+
+
+
+** Improvement
+    * [CA-654] - Modify "Lock" Icon on Science Data Tab
+    * [CA-688] - Increase the amount of content shown on the ecas homepage
+    * [CA-719] - create a configuration file for specifying product-type metadata field visibility on a global and per-product-type basis
+    * [CA-720] - create a configuration file for specifying product-type and product metadata key ordering
+
+
+
+
+
+
 Release Notes - Early Detection of Cancer - Version  eCAS Browser beta 0.4.9.1 release - 06/27/2010
 
 

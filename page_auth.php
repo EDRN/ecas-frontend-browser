@@ -29,14 +29,19 @@ $wantsProduct    = isset($_GET['productID']);
 // Determine whether the page should be shown to the user
 if ($authUserPresent) {
 	
-	if ($wantsDataset) {
-		
+	if ($wantsDataset) {	
+		/*
+		 * According to CA-654 (https://oodt.jpl.nasa.gov/jira/browse/CA-654), we now want to have all dataset
+		 * pages available, albeit with possibly incomplete content depending on the login status of the user.
+		 * Therefore, we should NOT redirect to the login page here if the user is not authorized.
+		****
 		if (! $eb->isDatasetAccessible($_GET['typeID'],
 				  $edrnAuth->retrieveGroupsForUser(
 					  $edrnAuth->getCurrentUsername()))) {
 			// The selected dataset is NOT visible to this user			
 			$notAuth  = true;
 		}
+		****/
 	}
 	
 	if ($wantsProduct) {
@@ -51,11 +56,16 @@ if ($authUserPresent) {
 } else { // Anonymous (non-authenticated) user present
 	
 	if ($wantsDataset) {
-		
+		/*
+		 * According to CA-654 (https://oodt.jpl.nasa.gov/jira/browse/CA-654), we now want to have all dataset
+		 * pages available, albeit with possibly incomplete content depending on the login status of the user.
+		 * Therefore, we should NOT force the user to log in at this point
+		****
 		if (! $eb->isDatasetAccessible($_GET['typeID'],array())) {
 			// The selected dataset is NOT visible to anonymous users			
 			$mustLogin = true;
 		}
+		****/
 	}
 	
 	if ($wantsProduct) {

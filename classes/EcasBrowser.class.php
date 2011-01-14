@@ -29,6 +29,10 @@ class EcasBrowser {
 	private $loginUsername;
 	private $loginGroups;
 	
+	public $visibilityPolicy;
+	
+	public $orderingPolicy;
+	
 	private $edrnAuth;
 	
 	public function __construct($CasFileManagerUrl,$externalServicesConfigPath) {
@@ -49,6 +53,13 @@ class EcasBrowser {
 		$this->loginGroups   = ($this->loginStatus)
 			? $this->edrnAuth->retrieveGroupsForUser($this->loginUsername)
 			: array();
+			
+		$this->visibilityPolicy = 
+			parse_ini_file(dirname(dirname(__FILE__)).'/element-visibility.ini',true);
+	
+		$this->orderingPolicy   = 
+			parse_ini_file(dirname(dirname(__FILE__)).'/element-ordering.ini',true);
+	
 	}
 	
 	
@@ -139,13 +150,6 @@ class EcasBrowser {
 		uksort($protocols,"eb_protocolSort");
 		
 		// Finally, generate the list of protocols (dataset collections)
-		if ($filtered > 0) {
-			
-			$plural = ($filtered != 1) ? 's':'';
-			echo "<div class=\"notice\">"
-			  . "<img src=\"assets/images/lock-icon.png\" style=\"width:24px;\" />"
-			  . "<strong>Note:</strong> some dataset{$plural} not available due to security restrictions.</div>";
-		}
 		echo "<div class=\"dataset-summary\">";
 		foreach ($protocols as $protName => $datasets) {
 			echo "<h2 style=\"margin-right:100px\">
@@ -175,7 +179,7 @@ class EcasBrowser {
 		if (($pt = $this->getProductType($datasetID)) != null) {
 			$qastate = strtolower( $pt->getTypeMetadata()->getMetadata('QAState') );
 			$datasetAccessGroups = $pt->getTypeMetadata()->getMetadata('AccessGrantedTo');
-			
+
 			// QAState overrides all...
 			if ($qastate == "accepted") { return true; }
 			
@@ -294,18 +298,28 @@ class EcasBrowser {
 		   
 		// Display the product type summary information
 		echo "<li>";
-		if ($accessibility == EcasBrowser::ACCESSIBLE) {
-			echo "<span class=\"title\">{$name} (<a href=\"./dataset.php?typeID={$id}\">{$productCount} products</a>)</span><br/>\n";		
+		//if ($accessibility == EcasBrowser::ACCESSIBLE) {
+		echo "<span class=\"title\">{$name} (<a href=\"./dataset.php?typeID={$id}\">{$productCount} products</a>)</span><br/>\n";		
+		/*
+		 * According to CA-654 (https://oodt.jpl.nasa.gov/jira/browse/CA-654), we now want to have all protocols
+		 * linkable from the home page, and we push the security settings further in, to the /dataset.php page to
+		 * allow less restrictive access to content.
+		****
 		} else {
 		        echo "<img src=\"assets/images/lock-icon.png\" style=\"width:24px;\"/>";
-			echo "<span class=\"title restricted\">{$name} (<span class=\"restricted\">{$productCount} products</span></span><br/>\n";
+			echo "<span class=\"title restricted\">{$name} (<span class=\"restricted\">{$productCount} products</span>)</span><br/>\n";
 		}
+		****/
 		echo "<span class=\"details\">[ PI: {$pi}, Organ: {$organName}, Collaborative Group: {$collabGroupName} ]</span><br/>";
 		echo "</li>";
 	}
 	
 	public function getLoginStatus() {
 		return $this->loginStatus;
+	}
+	
+	public function getLoginGroups() {
+		return $this->loginGroups;
 	}
 	
 	public function checkLoginStatus() {
