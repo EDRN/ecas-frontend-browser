@@ -1,0 +1,156 @@
+/**
+ * Site CSS Declarations
+ *
+ **/
+
+.moreLink {
+	width:100%;
+	display:block;
+	border:solid 1px #ccc;
+	padding:3px;
+	background-color:#eee;
+	text-align:center;
+}
+.removeLink {
+	display:inline;
+	cursor:pointer;
+	_cursor:hand;	
+	font-size:85%;
+}
+.removeLink img {
+	vertical-align:middle;
+	margin-right:5px;	
+}
+
+input[type=text].search {
+	padding:6px;
+	width:100%;
+}
+
+div#ptBrowser {
+		
+}
+
+div#facetMenu {
+	position:relative;
+	margin-bottom:10px;	
+	border-bottom:dotted 1px #ccc;
+}
+
+div#facetMenu ul {
+	margin:0px;
+	padding:0px;
+}
+
+div#facetMenu ul li {
+	display:inline;
+}
+
+
+div#facetMenu ul li a {
+	padding-right:15px;
+}
+
+div#facetMenu ul li a.selected {
+	border:solid 1px #ccc;	
+}
+
+div#facetMenu span.label {
+	position:absolute;
+	top:0px;
+	right:25px;	
+}
+
+
+
+div.facet {
+	
+}
+
+div.facet h4 {
+	margin-bottom:3px;	
+}
+div.facet h4 img {
+	padding-right:8px;	
+}
+
+div.facet ul.filterList {
+	margin:0px;
+	padding:0px;
+	list-style:none;
+	margin-bottom:5px;	
+}
+
+div.facet ul.filterList li {
+	padding:5px 0px;
+	position:relative;
+}
+
+div.facet ul.filterList li a {
+	
+}
+
+div.facet ul.filterList li.selected {
+	background-color:#fe8;	
+}
+
+div.blurb {
+	margin-bottom:8px;	
+	padding:5px 10px 10px 10px;
+	color:#333;
+	text-align:justify;
+}
+div.blurb p {
+	padding-top:0px;	
+}
+
+div.collabGroupLink {
+	position:absolute;
+	text-align:right;
+	width:200px;
+	padding-left:100px;
+	padding-bottom:px;		
+	border-bottom:solid 1px #346;
+}
+div.collabGroupLink a {
+	text-decoration:none;	
+}
+
+table.metwidget {
+	border-top:dotted 1px #bbb;	
+}
+table.metwidget table {
+	border-top:none;	
+}
+
+table.metwidget tr th {
+	vertical-align:top;
+	padding-top:8px;	
+	background-color:#eee;
+	border-bottom:solid 2px #fff;
+}
+table.metwidget tr td {
+	background-color:#f8f8f8;	
+}
+
+ul.tabmenu {
+	margin:0px;
+	padding:0px;
+	margin-bottom:15px;
+	padding-bottom:7px;
+	border-bottom:solid 1px #ccc;	
+}
+ul.tabmenu li {
+	display:inline;
+	border:solid 1px #ccc;
+	background-color:#eee;
+	padding:10px 15px;
+	font-size:1.6em;
+	margin-right:5px;
+	cursor:pointer;
+	_cursor:hand;
+}
+ul.tabmenu li.selected {
+	border-bottom:solid 1px #fff;
+	background-color:#fff;
+}
