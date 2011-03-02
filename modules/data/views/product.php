@@ -135,7 +135,7 @@ $metadataWidget = new MetadataDisplayWidget(array());
 
 // Is someone logged in?
 $status = (App::Get()->getAuthProvider()
-	   && App::Get()->getAuthProvider->getCurrentUsername() != false)
+	   && App::Get()->getAuthProvider()->getCurrentUsername() != false)
   ? CasBrowser::VIS_AUTH_AUTHENTICATED
   : CasBrowser::VIS_AUTH_ANONYMOUS;
 
