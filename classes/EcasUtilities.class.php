@@ -20,12 +20,12 @@ class EcasUtilities {
 	public static function translate($type,$candidate) {
 		switch (strtolower($type)) {
 			case 'site':
-				$url = App::Get()->settings['external_services_base_url'] 
-					 . '/ecas-services/sites.php?id=' . $candidate;
+				$url = App::Get()->settings['ecas_services_url'] 
+					 . '/sites.php?id=' . $candidate;
 				break;
 			case 'protocol':
-				$url = App::Get()->settings['external_services_base_url'] 
-					 . '/ecas-services/protocols.php?id=' . $candidate;
+				$url = App::Get()->settings['ecas_services_url'] 
+					 . '/protocols.php?id=' . $candidate;
 				break;
 		}
 		
@@ -46,7 +46,7 @@ class EcasUtilities {
 				)
 			);
 			$ctx = stream_context_create($opts);
-			$handle = fopen ($url, 'r', false, $ctx);
+			$handle = fopen($url, 'r', false, $ctx);
 			return stream_get_contents($handle);
 		}
 	}
