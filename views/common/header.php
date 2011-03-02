@@ -1,4 +1,10 @@
 <?php
+
+require_once(HOME . "/modules/profile/scripts/widgets/UserStatusWidget.php");
+$userStatusWidget = new UserStatusWidget(array(
+	App::Get()->getAuthProvider()->isLoggedIn(),
+	App::Get()->getAuthProvider()->getCurrentUsername()));
+
 ?>
 <html>
 <head>
@@ -27,21 +33,42 @@
 <body>
 
 <!-- EDRN HEADER START -->
-<body>
-<div id="ncibanner">
+<div id="page">
+	<div id="ncibanner">
 
-	<div id="ncibanner-inner">
+		<div id="ncibanner-inner">
 		  <a href="http://www.cancer.gov/"><h2 class="ncilogo">National Cancer Institute</h2></a>
 		  <a href="http://www.cancer.gov/"><h2 class="cdglogo">www.cancer.gov</h2></a>
 		  <a href="http://www.nih.gov/"><h2 class="nihlogo">National Institutes of Health</h2></a>
+		</div>
 	</div>
-</div>
-<br class="clr"/>
-<div class="container" style="margin-top:36px;">
-	<h1 style="margin-bottom:7px;">Early Detection Research Network</h1>
-	<h3 style="letter-spacing:0.2em;color:#666">Early Detection Research Network Catalog and Archive Service</h3>
-	<hr/>
-</div>
+	<br class="clr"/>
+
+	<div id="edrnlogo">
+		<h1  class="header-title"><img id="edrnlogo-logo" src="<?php echo SITE_ROOT?>/static/edrn-skin/img/edrn-logo.png"/>Early Detection Research Network</h1>
+		<h2  class="header-title">Biomarkers: The key to early detection.</h2>
+	</div>
+	<div id="dcplogo">
+		<h2 class="dcplogo"><a href="http://prevention.cancer.gov">Division of Cancer Prevention</a></h2>
+	</div>
+
+	<div class="userdetails">
+		<?php echo $userStatusWidget->render();?>	
+		
+	</div>
+	<div class="container" style="position:relative;">
+		<h2 class="app-title" style="margin-top:-4px;margin-right:-12px;">EDRN Catalog and Archive Service</h2>
+	</div>
+	
+	<div class="menu">
+		<!-- Breadcrumbs Area -->
+		<div id="breadcrumbs"/>
+			<ul><li><a href="<?php echo SITE_ROOT?>/">Home</a></li></ul>
+		</div><!-- End Breadcrumbs -->
+	</div>
+
+	<hr class="space"/>
+
 
 <!-- EDRN HEADER END -->
 <div class="container">
