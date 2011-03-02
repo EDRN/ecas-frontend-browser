@@ -68,6 +68,36 @@ class CasBrowser {
 	}
 	
 	/**
+	 * Internal helper function for sorting(ordering) a metadata array according to policy. 
+	 * 
+	 * @param array $unsortedMetadata An associative array of unsorted metadta key/(multi)values
+	 * @param array $sortFirst        A scalar array of metadata keys that must be ordered first
+	 * @param array $sortLast         A scalar array of metadata keys that must be ordered last
+	 * @returns array An associative array of sorted(ordered) metadata key/(multi)values
+	 */
+	protected function sortMetadata($unsortedMetadata,$sortFirst,$sortLast) {
+		$orderedMetadata = array();
+		foreach ($sortFirst as $key) {
+			if (isset($unsortedMetadata[$key])) {
+				$orderedMetadata[$key] = $unsortedMetadata[$key];
+				unset($unsortedMetadata[$key]);
+			}
+		}
+		$lastMetadata = array();
+		foreach ($sortLast as $key) {
+			if (isset($unsortedMetadata[$key])) {
+				$lastMetadata[$key] = $unsortedMetadata[$key];
+				unset($unsortedMetadata[$key]);
+			}
+		}
+		$orderedMetadata += $unsortedMetadata;
+		$orderedMetadata += $lastMetadata;
+		
+		return $orderedMetadata;
+	}
+	
+	
+	/**
 	 * Use the rules in element-ordering.ini to determine the display order
 	 * for product type metadata elements. See element-ordering.ini for more
 	 * information on how to specify element order rules.
@@ -84,47 +114,41 @@ class CasBrowser {
 			$metadataAsArray = $metadataToUse;
 		}
 		
-		
 		$orderingPolicyFilePath = dirname(dirname(__FILE__)) . '/element-ordering.ini';
 		if (file_exists($orderingPolicyFilePath)) {
 			$orderPolicy = parse_ini_file($orderingPolicyFilePath,true);
-			$pt_order             = array();
-			$pt_order['first']    = isset($orderPolicy[$productTypeId]['pt.element.ordering.first']) 
+
+			$first    = isset($orderPolicy[$productTypeId]['pt.element.ordering.first']) 
 				? $orderPolicy[$productTypeId]['pt.element.ordering.first']
 				: $orderPolicy['*']['pt.element.ordering.first'];
-			$pt_order['last']     = isset($orderPolicy[$productTypeId]['pt.element.ordering.last']) 
+			$last     = isset($orderPolicy[$productTypeId]['pt.element.ordering.last']) 
 				? $orderPolicy[$productTypeId]['pt.element.ordering.last']
 				: $orderPolicy['*']['pt.element.ordering.last'];
 								
 			// Using the odering policy, determine the order in which the metadata will be listed
-			$orderedMetadata = array();
-			foreach ($pt_order['first'] as $key) {
-				if (isset($metadataAsArray[$key])) {
-					$orderedMetadata[$key] = $metadataAsArray[$key];
-					unset($metadataAsArray[$key]);
-				}
-			}
-			$lastMetadata = array();
-			foreach ($pt_order['last'] as $key) {
-				if (isset($metadataAsArray[$key])) {
-					$lastMetadata[$key] = $metadataAsArray[$key];
-					unset($metadataAsArray[$key]);
-				}
-			}
-			$orderedMetadata += $metadataAsArray;
-			$orderedMetadata += $lastMetadata;
-			
-			return $orderedMetadata;						
+			return $this->sortMetadata($metadataAsArray,$first,$last);	
 		} else {
 			return $metadataAsArray;
 		}
 	}
 	
-	public function getProductTypeVisibleMetadata($productTypeId,$state = self::VIS_AUTH_ANONYMOUS) {
-		
+	public function getProductTypeVisibleMetadata($productTypeId,$authState = self::VIS_AUTH_ANONYMOUS) {
 		$pt = $this->client->getProductTypeById($productTypeId);
 		$pt = $pt->toAssocArray();
-		$metadataAsArray = $pt['typeMetadata'];
+		
+		return $this->getVisibleMetadata($pt['typeMetadata'], $productTypeId, $state);
+	}
+	
+	public function getProductVisibleMetadata($productId,$authState = self::VIS_AUTH_ANONYMOUS) {
+		$p  = $this->client->getProductById($productId);
+		$productTypeInfo = $p->getType()->toAssocArray();
+		$productTypeId   = $productTypeInfo[App::Get()->settings['browser_pt_id_key']];
+		$productMetadata = $this->client->getMetadata($p);
+		
+		return $this->getVisibleMetadata($productMetadata->toAssocArray(), $productTypeId, $state);		
+	}
+	
+	protected function getVisibleMetadata($metadataAsArray, $productTypeId, $state) {
 		
 		$visibilityPolicyFilePath = dirname(dirname(__FILE__)) . '/element-visibility.ini';
 		if (file_exists($visibilityPolicyFilePath)) {
