@@ -15,6 +15,43 @@
 require_once(MODULE . "/classes/CasBrowser.class.php");
 require_once(MODULE . "/scripts/widgets/ProductTypeListWidget.php");
 
+
+function translate($type,$candidate) {
+	switch (strtolower($type)) {
+		case 'sitename':
+			$url = App::Get()->settings['ecas_services_url'] . '/sites.php?id=' . $candidate;
+			break;
+		case 'protocol':
+			$url = App::Get()->settings['ecas_services_url'] . '/protocols.php?id=' . $candidate;
+			break;
+		default:
+			header('HTTP/1.0 400 Bad Request');
+			echo json_encode(array());
+			exit();
+	}
+	
+	// The default is to use curl to make the request
+	if ($useCurl && function_exists('curl_init')) {
+		$ch = curl_init();
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+		curl_setopt($ch,CURLOPT_URL,$url);
+		$result = curl_exec($ch);
+		curl_close($ch);
+		return $result;
+	} 
+	// Otherwise, use fopen as a fallback
+	else {
+		$opts = array(
+			'http' => array (
+				'method' => 'GET',
+			)
+		);
+		$ctx = stream_context_create($opts);
+		$handle = fopen ($url, 'r', false, $ctx);
+		return stream_get_contents($handle);
+	}
+}
+
 // Get a Cas-Browser XML/RPC Client
 $browser = new CasBrowser();
 $client  = $browser->getClient();
@@ -38,9 +75,17 @@ foreach ($ptypes as $pt) {
 			"name" => array($ptArray[App::Get()->settings['browser_pt_name_key']]),
 			"description" => array($ptArray[App::Get()->settings['browser_pt_desc_key']]),
 			"id"   => array($ptArray[App::Get()->settings['browser_pt_id_key']])));
+
+		/***EDRN-SPECIFIC***/
+		if (isset($merged['SiteName'][0]))   { $merged['SiteName'][0]  = translate('SiteName',$merged['SiteName'][0]); }
+		if (isset($merged['ProtocolId'][0])) { $merged['ProtocolName'] = array(translate('Protocol',$merged['ProdocolId'][0])); }
+		/***END EDRN-SPECIFIC***/
 		
 		$productTypes[] = $merged;
-	}	
+	}
+	
+	
+	
 }
 
 // Format output as json
