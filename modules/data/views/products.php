@@ -188,11 +188,7 @@ $productPageWidget->load($page);
 			<hr class="space"/>
 			<hr/>
 			<div id="cas_browser_filter_widget">
-			  <div id="filter_widget">
-				  <h3>Filter Product Results</h3>
-				  <?php $filterWidget->render(); ?>
-				  <input type="hidden" id="page_num" value="1">
-			  </div>		
+			  
 			</div>
 		</div>
 	</div>
