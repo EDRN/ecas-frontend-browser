@@ -1,6 +1,6 @@
 <?php 
 	// Load the Cas-Browser Module
-	App::Get()->loadModule('browse');
+	App::Get()->loadModule('data');
 	
 	require_once(HOME . '/classes/EcasUtilities.class.php');
 	require_once(HOME . '/modules/browse/classes/CasBrowser.class.php');
@@ -27,18 +27,18 @@
 		// Investigator (LeadPI)
 		$investigators[$met['LeadPI'][0]] = array(
 			"label" => $met['LeadPI'][0],
-			"href"  => '/browse/productTypeFilter.do?key=LeadPI&value='.urlencode($met['LeadPI'][0]));
+			"href"  => '/data/productTypeFilter.do?key=LeadPI&value='.urlencode($met['LeadPI'][0]));
 	
 		// Protocol (ProtocolID)
 		$protocols[$met['ProtocolId'][0]] = array(
 			"label" => EcasUtilities::translate('protocol',$met['ProtocolId'][0]),
-			"href"  => '/browse/productTypeFilter.do?key=ProtocolId&value='.urlencode($met['ProtocolId'][0]));
+			"href"  => '/data/productTypeFilter.do?key=ProtocolId&value='.urlencode($met['ProtocolId'][0]));
 		
 		// Sites (SiteName)
 		$siteName = EcasUtilities::translate('site', $met['SiteName'][0]);
 		$sites[$met['SiteName'][0]] = array(
 			"label" => $siteName,
-			"href"  => '/browse/productTypeFilter.do?key=SiteName&value=' . urldecode($met['SiteName'][0])
+			"href"  => '/data/productTypeFilter.do?key=SiteName&value=' . urldecode($met['SiteName'][0])
 		);
 	}
 ?>
@@ -64,6 +64,9 @@
 
 <div class="span-13 colborder" style="padding:1.4em;padding-top:0px;padding-left:0px;padding-right:1.4em;">
 	<h2 style="border-bottom:dotted 1px #ccc;margin-top:0px;">Data Browser</h2>
+	<div id="loadingDatasets" class="loading">
+		<img src="<?php echo SITE_ROOT?>/static/img/loading.gif" style="vertical-align:middle;"/>
+		&nbsp;Loading datasets...</div>
 	<div id="ptBrowser"></div>
 	
 
