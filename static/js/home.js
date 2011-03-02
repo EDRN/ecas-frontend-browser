@@ -38,8 +38,11 @@ function initProductTypeBrowser() {
 		.removeClass('selected')
 		.children('.removeLink').hide();
 	
+	 // Enable the loading message
+	$('#loadingDatasets').show();
+	
 	// Load all data
-	$.get('/browse/productTypeFilter.do?key=DataSetName&value=*',
+	$.get('/data/productTypeFilter.do?key=DataSetName&value=*',
 		updateProductTypeBrowser);
 }
 
@@ -151,6 +154,7 @@ function initFilterTab(which) {
 
 
 function updateProductTypeBrowser( data ) {
+	$('#loadingDatasets').hide();
 	$('#ptBrowser').empty();	
 	for (i = 0; i < data.length; i++) {
 		$( '#ptBrowser' ).append(
@@ -164,12 +168,12 @@ function generateProductTypeTeaser( data ) {
 		$blurb = $('<p>').text(data.description[0]);
 		if ($blurb.text().length > blurbLength) {
 			$blurb.text($blurb.text().substr(0,blurbLength) + '...');
-			$blurb.append($('<a>').attr('href','/dataset/'+data.DatasetId[0]).text('more'));			
+			$blurb.append($('<a>').attr('href','/data/dataset/'+data.DatasetId[0]).text('more'));			
 		}
 	}
 	
 	var $content = $('<div>').addClass('productTypeTeaser')
-		.append($('<h5>').css('margin-bottom','0px').append($('<a>').attr('href','/dataset/'+data.DatasetId[0]).text(data.DataSetName[0])))
+		.append($('<h5>').css('margin-bottom','0px').append($('<a>').attr('href','/data/dataset/'+data.DatasetId[0]).text(data.DataSetName[0])))
 		.append($('<div>').addClass('quiet').text(data.LeadPI[0]))
 		.append($('<div>').addClass('blurb').html($blurb));
 	
