@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /
+RewriteBase /ecas
 
 # Send all other non-static requests to the main controller
 RewriteCond %{REQUEST_URI} !/static/(.*)$
