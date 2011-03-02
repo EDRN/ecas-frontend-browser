@@ -2,6 +2,7 @@
 // Load the module context for this module
 $ctx  = App::Get()->loadModule();
 
+require_once(HOME . '/classes/EcasUtilities.class.php');
 require_once($ctx->modulePath . "/classes/CasBrowser.class.php");
 require_once($ctx->modulePath . "/scripts/widgets/MetadataDisplayWidget.php");
 
@@ -130,6 +131,9 @@ $visibleMetadata = $browser->getProductTypeVisibleMetadata($ptID,
 $sortedMetadata  = $browser->getSortedProductTypeMetadata($ptID,$visibleMetadata);
 
 // Load up the metadata widget with the sorted, filtered, metadata
+$sortedMetadata['ProtocolName'] = EcasUtilities::translate('protocol', $sortedMetadata['ProtocolName'][0]);
+$sortedMetadata['SiteName']     = EcasUtilities::translate('site', $sortedMetadata['SiteName'][0]);
+
 $typeMetadataWidget->loadMetadata($sortedMetadata);
 
 // Create a MetadataDisplayWidget to display system metadata (all except typeMetadata)
