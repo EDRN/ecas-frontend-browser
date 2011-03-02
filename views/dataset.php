@@ -24,7 +24,7 @@ $visibleMetadata = $browser->getProductTypeVisibleMetadata($ptID, CasBrowser::VI
 
 // Sort the visible elements according to the ordering policy
 $sortedMetadata  = $browser->getSortedProductTypeMetadata($ptID,$visibleMetadata);
-$sortedMetadata['ProtocolName'][0] = Ecas::translate('protocol',$sortedMetadata['ProtocolName'][0]);
+$sortedMetadata['ProtocolName'][0] = EcasUtilities::translate('protocol',$sortedMetadata['ProtocolName'][0]);
 
 
 $typeMetadataWidget->loadMetadata($sortedMetadata);
@@ -65,7 +65,7 @@ $systemMetadataWidget->loadMetadata($typeMetadata)
 <div id="cas_browser_container" class="span-24 last">
 	<h2><?php echo $sortedMetadata['DataSetName'][0]?> (<?php echo $ptName?>)</h2>
 	<h3 style="margin-bottom:3px;">PI: <?php echo $sortedMetadata['LeadPI'][0]?>,
-		<span class="quiet" style="font-size:85%;"><em><?php echo Ecas::translate('sitename',$sortedMetadata['SiteName'][0])?></em></span></h3>
+		<span class="quiet" style="font-size:85%;"><em><?php echo EcasUtilities::translate('sitename',$sortedMetadata['SiteName'][0])?></em></span></h3>
 	<hr/>
 	<?php if (!empty($response['description'])): ?>
 	<div id="section_type_description">
