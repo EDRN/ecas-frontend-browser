@@ -81,12 +81,11 @@ foreach ($ptypes as $pt) {
 		if (isset($merged['ProtocolId'][0])) { $merged['ProtocolName'] = array(translate('Protocol',$merged['ProdocolId'][0])); }
 		/***END EDRN-SPECIFIC***/
 		
-		$productTypes[] = $merged;
-	}
-	
-	
-	
+		$productTypes[$merged['DataSetName'][0]] = $merged;
+	}	
 }
+
+ksort($productTypes);
 
 // Format output as json
 $json = json_encode($productTypes);

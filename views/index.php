@@ -3,7 +3,7 @@
 	App::Get()->loadModule('data');
 	
 	require_once(HOME . '/classes/EcasUtilities.class.php');
-	require_once(HOME . '/modules/browse/classes/CasBrowser.class.php');
+	require_once(HOME . '/modules/data/classes/CasBrowser.class.php');
 	
 	// Add the home page javascript
 	App::Get()->response->addJavascript(SITE_ROOT . '/static/js/home.js');
@@ -27,18 +27,19 @@
 		// Investigator (LeadPI)
 		$investigators[$met['LeadPI'][0]] = array(
 			"label" => $met['LeadPI'][0],
-			"href"  => '/data/productTypeFilter.do?key=LeadPI&value='.urlencode($met['LeadPI'][0]));
+			"href"  => '/ecas/data/productTypeFilter.do?key=LeadPI&value='.urlencode($met['LeadPI'][0]));
 	
 		// Protocol (ProtocolID)
 		$protocols[$met['ProtocolId'][0]] = array(
 			"label" => EcasUtilities::translate('protocol',$met['ProtocolId'][0]),
-			"href"  => '/data/productTypeFilter.do?key=ProtocolId&value='.urlencode($met['ProtocolId'][0]));
+			"href"  => '/ecas/data/productTypeFilter.do?key=ProtocolId&value='.urlencode($met['ProtocolId'][0]));
 		
 		// Sites (SiteName)
 		$siteName = EcasUtilities::translate('site', $met['SiteName'][0]);
 		$sites[$met['SiteName'][0]] = array(
 			"label" => $siteName,
-			"href"  => '/data/productTypeFilter.do?key=SiteName&value=' . urldecode($met['SiteName'][0])
+			"href"  => '/ecas/data/productTypeFilter.do?key=SiteName&value=' . 
+urldecode($met['SiteName'][0])
 		);
 	}
 ?>
@@ -74,9 +75,9 @@
 <div class="span-10 last">
 	<div id="facetMenu">
 		<ul>
-			<li class="selected"><a href="#facet-pi" title="Principal Investigator"><img src="<?php echo SITE_ROOT?>/static/img/user_gray.png"/></a></li>
+			<li><a href="#facet-pi" title="Principal Investigator"><img src="<?php echo SITE_ROOT?>/static/img/user_gray.png"/></a></li>
 			<li><a href="#facet-protocol" title="Protocol"><img src="<?php echo SITE_ROOT?>/static/img/page_white_text.png"/></a></li>
-			<li><a href="#facet-organ" title="Organ Group"><img src="<?php echo SITE_ROOT?>/static/img/group.png"/></a></li>
+			<li class="selected"><a href="#facet-organ" title="Organ Group"><img src="<?php echo SITE_ROOT?>/static/img/group.png"/></a></li>
 			<li><a href="#facet-site" title="Participating Site"><img src="<?php echo SITE_ROOT?>/static/img/building.png"/></a></li>
 		</ul>
 		<span class="label">Principal Investigator</span>
@@ -111,16 +112,16 @@
 		<h4><img src="<?php echo SITE_ROOT?>/static/img/group.png"/>Filter By Collaborative Group</h4>
 		<div style="position:relative">
 		  <div class="collabGroupLink" style="top:20px;left:50px;">
-		  	<a href="">Lung &amp; Upper Aerodigestive</a>
+		  	<a href="http://tumor.jpl.nasa.gov/ecas/data/productTypeFilter.do?key=CollaborativeGroup&value=Lung%20and%20Upper%20Aerodigestive">Lung &amp; Upper Aerodigestive</a>
 		  </div>
 		  <div class="collabGroupLink" style="top:45px;left:50px;">
-		  	<a href="">Breast / GYN</a>
+		  	<a href="http://tumor.jpl.nasa.gov/ecas/data/productTypeFilter.do?key=CollaborativeGroup&value=Breast/GYN">Breast / GYN</a>
 		  </div>		  
 		  <div class="collabGroupLink" style="top:70px;left:50px;">
-		  	<a href="">GI &amp; Other Associated</a>
+		  	<a href="http://tumor.jpl.nasa.gov/ecas/data/productTypeFilter.do?key=CollaborativeGroup&value=GI%20and%20Other%20Associated">GI &amp; Other Associated</a>
 		  </div>
 		  <div class="collabGroupLink" style="top:95px;left:50px;">
-		  	<a href="">Prostate &amp; Urologic</a>
+		  	<a href="http://tumor.jpl.nasa.gov/ecas/data/productTypeFilter.do?key=CollaborativeGroup&value=Prostate%20and%20Urologic">Prostate &amp; Urologic</a>
 		  </div>
 		
 		</div>

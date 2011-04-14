@@ -18,7 +18,7 @@ $userStatusWidget = new UserStatusWidget(array(
 <link rel="stylesheet" type="text/css" href="<?php echo SITE_ROOT?>/static/edrn-skin/css/edrn-informatics.css"/>
 
 <!-- Base Javascript -->
-<script type="text/javascript" type="text/javascript" src="<?php echo SITE_ROOT?>static/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" type="text/javascript" src="<?php echo SITE_ROOT?>/static/js/jquery-1.4.2.min.js"></script>
 
 <!-- Dynamically Added Stylesheets -->
 <!-- STYLESHEETS -->

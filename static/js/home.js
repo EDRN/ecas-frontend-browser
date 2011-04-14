@@ -22,6 +22,16 @@ $(document).ready(function() {
 	initFilterTab('investigator');
 	initFilterTab('protocol');
 	initFilterTab('site');
+
+	// Initialize Collab Group links
+	$('div.collabGroupLink a').click(function(e) {
+		e.preventDefault();
+		$('#loadingDatasets').show();
+		var dataUrl = $(this).attr('href');
+		$.get(dataUrl,{},function(data) {
+			updateProductTypeBrowser(data);
+		},'json');
+	});
 	
 });
 
@@ -42,7 +52,7 @@ function initProductTypeBrowser() {
 	$('#loadingDatasets').show();
 	
 	// Load all data
-	$.get('/data/productTypeFilter.do?key=DataSetName&value=*',
+	$.get('/ecas/data/productTypeFilter.do?key=DataSetName&value=*',
 		updateProductTypeBrowser);
 }
 
@@ -53,7 +63,7 @@ function initFilterTabMenu() {
 	$elms = $list.children('li');
 	
 	// Start by showing the PI tab only
-	filterMenuChangeTo('facet-pi');
+	filterMenuChangeTo('facet-organ');
 	
 	// Enable clicking on menu links
 	$elms.children('a')
@@ -155,11 +165,11 @@ function initFilterTab(which) {
 
 function updateProductTypeBrowser( data ) {
 	$('#loadingDatasets').hide();
-	$('#ptBrowser').empty();	
-	for (i = 0; i < data.length; i++) {
-		$( '#ptBrowser' ).append(
-			generateProductTypeTeaser( data[i] ));
-	}
+	$('#ptBrowser').empty();
+	$.each(data,function(i,v) {
+		$('#ptBrowser').append(
+			generateProductTypeTeaser( v ));
+	});
 }
 
 function generateProductTypeTeaser( data ) {
@@ -168,12 +178,12 @@ function generateProductTypeTeaser( data ) {
 		$blurb = $('<p>').text(data.description[0]);
 		if ($blurb.text().length > blurbLength) {
 			$blurb.text($blurb.text().substr(0,blurbLength) + '...');
-			$blurb.append($('<a>').attr('href','/data/dataset/'+data.DatasetId[0]).text('more'));			
+			$blurb.append($('<a>').attr('href','/ecas/data/dataset/'+data.DatasetId[0]).text('more'));			
 		}
 	}
 	
 	var $content = $('<div>').addClass('productTypeTeaser')
-		.append($('<h5>').css('margin-bottom','0px').append($('<a>').attr('href','/data/dataset/'+data.DatasetId[0]).text(data.DataSetName[0])))
+		.append($('<h5>').css('margin-bottom','0px').append($('<a>').attr('href','/ecas/data/dataset/'+data.DatasetId[0]).text(data.DataSetName[0])))
 		.append($('<div>').addClass('quiet').text(data.LeadPI[0]))
 		.append($('<div>').addClass('blurb').html($blurb));
 	

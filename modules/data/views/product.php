@@ -10,12 +10,12 @@ $client   = $browser->getClient();
 // Get the specified product
 $product = $client->getProductById(App::Get()->request->segments[0]);
 $productName     = $product->getName();
+$productTypeInfo = $product->getType()->toAssocArray();
 $productTypeName = $productTypeInfo[App::Get()->settings['browser_pt_name_key']];
 $productTypeId   = $productTypeInfo[App::Get()->settings['browser_pt_id_key']];
 $productMetadata = $client->getMetadata($product);
 
-// Get metadata for product and productType as associative arrays
-$productTypeInfo = $product->getType()->toAssocArray();
+// Get metadata for product as associative array
 $productInfo     = $productMetadata->toAssocArray();
 
 
@@ -114,10 +114,15 @@ $productInfo     = $productMetadata->toAssocArray();
  		}
  	} else {
  		// If no logged in user, and policy says DENY, kick the user
- 		if (strtoupper(App::Get()->settings['browser_p_auth_policy']) == "DENY") {
+ 		if (strtoupper(App::Get()->settings['browser_p_auth_policy']) == "DENY"
+ 			&& $productTypeInfo['typeMetadata']['QAState'][0] != 'Accepted') {
  			App::Get()->redirect('/errors/403');
+ 		} else if ($productTypeInfo['typeMetadata']['QAState'][0] != 'Accepted') {
+ 			$authorizedUser = true;
+ 			$limitedVisibility = false;
+ 		} else {
+ 			$limitedVisibility = true;
  		}
- 		$limitedVisibility = true;
  	}
  } else {
  	// If no authentication provider information exists in the application
@@ -200,11 +205,11 @@ App::Get()->response->addStylesheet(MODULE_STATIC . '/css/cas-browser.css');
 <hr class="space"/>
 <div class="span-22 last prepend-1 append-1">
 	<div id="cas_browser_product_metadata">
-		<h2 class="larger loud">Product Metadata: <?php echo $productName?></h2>
+		<h3 class="loud">Product Metadata: <?php echo $productName?></h3>
 		<?php $metadataWidget->render()?>
 	</div>
 	<div id="cas_browser_product_download">
-		<h2 class="larger loud">Download this Product:</h2>
+		<h3 class="loud">Download this Product:</h3>
 		<?php $productDownloadWidget->render()?>
 	</div>
 </div>

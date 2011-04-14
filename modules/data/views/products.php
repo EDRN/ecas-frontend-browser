@@ -93,7 +93,7 @@ $typeInfo = $productType->toAssocArray();
  				case "DENY":
  				default:
  					// Kick the user out at this point, deny all access. 
-	 				App::Get()->redirect('/errors/403');
+	 				App::Get()->redirect(SITE_ROOT . '/errors/403');
  			}
  		} else {
  			// We have an authorized user
@@ -102,7 +102,7 @@ $typeInfo = $productType->toAssocArray();
  	} else {
  		// If no logged in user, and policy says DENY, kick the user
  		if (strtoupper(App::Get()->settings['browser_pt_auth_policy']) == "DENY") {
- 			App::Get()->redirect('/errors/403');
+ 			App::Get()->redirect(SITE_ROOT . '/errors/403');
  		}
  		$limitedVisibility = true;
  	}
@@ -114,7 +114,13 @@ $typeInfo = $productType->toAssocArray();
  	$authorizedUser = true; 	
  }
 /****************************************************************************/
-
+/*
+ * Accepted datasets should always be fully visible to the general public
+ */ 
+if ($typeInfo['typeMetadata']['QAState'][0] == 'Accepted') {
+ 	$authorizedUser = true;
+ 	$limitedVisibility = false;
+}
 
 // Initialize the FilterWidget
 $querySiteRoot = (isset(App::Get()->settings['query_service_url']))
@@ -154,11 +160,10 @@ $productPageWidget->load($page);
 <div id="cas_browser_container" class="span-24 last">
 
 	<div id="section_products">
-		<h2 ><?php echo $ptName?></h2>
-		<hr/>
+		<h3 ><?php echo $ptName?></h3>
 		
 		<div id="section_type_metadata">
-			<h3>Description:</h3>
+			<h4>Dataset Abstract:</h4>
 			<p><?php echo $typeInfo['description']?></p>
 			<hr class="space"/>
 			
@@ -173,7 +178,7 @@ $productPageWidget->load($page);
 		</div>
 		<?php endif;?>
 		<div id="cas_browser_product_list" class="span-12 colborder">
-		  <h3>Downloadable Files for this Dataset</h3>
+		  <h4>Downloadable Files for this Dataset</h4>
 			<?php echo $productPageWidget->renderPageDetails()?>
 			<?php $productPageWidget->render()?>
 		</div>

@@ -27,6 +27,11 @@ class EcasUtilities {
 				$url = App::Get()->settings['ecas_services_url'] 
 					 . '/protocols.php?id=' . $candidate;
 				break;
+			case 'pubmed':
+				$url = "http://www.ncbi.nlm.nih.gov/pubmed/{$candidate}";
+				return "<a href='{$url}'>{$url}</a>";
+			case 'longtext':
+				return nl2br($candidate);
 		}
 		
 		// The default is to use curl to make the request

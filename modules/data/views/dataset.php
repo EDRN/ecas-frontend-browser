@@ -99,7 +99,7 @@ $typeInfo = $productType->toAssocArray();
  				case "DENY":
  				default:
  					// Kick the user out at this point, deny all access. 
-	 				App::Get()->redirect('/errors/403');
+	 				App::Get()->redirect(SITE_ROOT . '/errors/403');
  			}
  		} else {
  			// We have an authorized user
@@ -108,7 +108,7 @@ $typeInfo = $productType->toAssocArray();
  	} else {
  		// If no logged in user, and policy says DENY, kick the user
  		if (strtoupper(App::Get()->settings['browser_pt_auth_policy']) == "DENY") {
- 			App::Get()->redirect('/errors/403');
+ 			App::Get()->redirect(SITE_ROOT . '/errors/403');
  		}
  		$limitedVisibility = true;
  	}
@@ -121,6 +121,13 @@ $typeInfo = $productType->toAssocArray();
  }
 /****************************************************************************/
 
+/*
+ * Accepted datasets should always be fully visible to the general public
+ */ 
+if ($typeInfo['typeMetadata']['QAState'][0] == 'Accepted') {
+ 	$authorizedUser = true;
+ 	$limitedVisibility = false;
+}
 // Apply the element visibility policy
 $visibleMetadata = $browser->getProductTypeVisibleMetadata($ptID, 
 	($authorizedUser)
@@ -133,7 +140,15 @@ $sortedMetadata  = $browser->getSortedProductTypeMetadata($ptID,$visibleMetadata
 // Load up the metadata widget with the sorted, filtered, metadata
 $sortedMetadata['ProtocolName'] = EcasUtilities::translate('protocol', $sortedMetadata['ProtocolName'][0]);
 $sortedMetadata['SiteName']     = EcasUtilities::translate('site', $sortedMetadata['SiteName'][0]);
-
+if (isset($sortedMetadata['PubMedID'])) {
+	$sortedMetadata['PubMedID']     = EcasUtilities::translate('pubmed',$sortedMetadata['PubMedID'][0]);
+}
+if (isset($sortedMetadata['ResultsAndConclusionSummary'])) {
+	$sortedMetadata['ResultsAndConclusionSummary'] = EcasUtilities::translate('longtext',$sortedMetadata['ResultsAndConclusionSummary'][0]);
+}
+if (isset($sortedMetadata['MethodDetails'])) {
+	$sortedMetadata['MethodDetails'] = EcasUtilities::translate('longtext',$sortedMetadata['MethodDetails'][0]);
+}
 $typeMetadataWidget->loadMetadata($sortedMetadata);
 
 // Create a MetadataDisplayWidget to display system metadata (all except typeMetadata)
@@ -171,8 +186,7 @@ $systemMetadataWidget->loadMetadata($typeMetadata)
 </div>
 <hr class="space"/>
 <div id="cas_browser_container" class="span-24 last">
-	<h2><?php echo $sortedMetadata['DataSetName'][0]?> (<?php echo $ptName?>)</h2>
-	<hr/>
+	<h3><?php echo $sortedMetadata['DataSetName'][0]?></h3>
 	<?php if (!empty($response['description'])): ?>
 	<div id="section_type_description">
 		<h3>About this Product Type:</h3>
@@ -181,7 +195,7 @@ $systemMetadataWidget->loadMetadata($typeMetadata)
 	</div>
 	<?php endif?>
 	<div id="section_type_metadata">
-		<h3>Description:</h3>
+		<h4>Dataset Abstract:</h4>
 		<p><?php echo $typeInfo['description']?></p>
 		<hr class="space"/>
 		

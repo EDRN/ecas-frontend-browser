@@ -2,6 +2,21 @@ EDRN JIRA site: http://oodt.jpl.nasa.gov/jira/browse/CA
 
 
 
+Release Notes - Early Detection of Cancer - Version eCAS Browser beta 0.5.0 release - 04/13/2011
+
+
+** Bug
+    * [CA-751] - Show all available dataset and product metadata for public or users with appropriate permissions
+    * [CA-752] - When clicking on a product to download and you are not logged in or don't have appropriate permission get - 403 Error
+
+** Improvement
+    * [CA-750] - Convert Protocol ID into Protocol Name
+
+
+
+
+
+
 Release Notes - Early Detection of Cancer - Version eCAS Browser beta 0.4.9.2 release - 01/13/2011
 
 

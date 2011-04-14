@@ -136,7 +136,7 @@ class CasBrowser {
 		$pt = $this->client->getProductTypeById($productTypeId);
 		$pt = $pt->toAssocArray();
 		
-		return $this->getVisibleMetadata($pt['typeMetadata'], $productTypeId, $state);
+		return $this->getVisibleMetadata($pt['typeMetadata'], $productTypeId, $authState);
 	}
 	
 	public function getProductVisibleMetadata($productId,$authState = self::VIS_AUTH_ANONYMOUS) {
@@ -149,8 +149,34 @@ class CasBrowser {
 	}
 	
 	protected function getVisibleMetadata($metadataAsArray, $productTypeId, $state) {
-		
+
 		$visibilityPolicyFilePath = dirname(dirname(__FILE__)) . '/element-visibility.ini';
+		
+		// Special handling for accepted datasets
+		if (isset($metadataAsArray['QAState']) && strtoupper($metadataAsArray['QAState'][0]) == 'ACCEPTED') {
+			$displayMet = $metadataAsArray;
+			$visibilityPolicy = parse_ini_file($visibilityPolicyFilePath,true);
+			$interp     = $visibilityPolicy['interpretation.policy'];
+                        $global_vis = $visibilityPolicy['*'];
+                        $pt_vis     = isset($visibilityPolicy[$productTypeId])
+                                ? $visibilityPolicy[$productTypeId]
+                                : array("visibility.always" => array(),
+                                         "visibility.anonymous" => array(),
+                                         "visibility.authenticated" => array());
+			switch ($interp) {
+				case self::VIS_INTERPRET_HIDE:
+					$displayMet = $metadataAsArray;
+					foreach ($global_vis['visibility.always'] as $elm)
+						unset($displayMet[$elm]);                  
+					foreach ($pt_vis['visibility.always'] as $elm)      
+						unset($displayMet[$elm]);
+					return $displayMet;
+				default: break;
+			}
+
+			return $metadataAsArray();
+		}
+
 		if (file_exists($visibilityPolicyFilePath)) {
 			$visibilityPolicy = parse_ini_file($visibilityPolicyFilePath,true);
 			$interp     = $visibilityPolicy['interpretation.policy'];
