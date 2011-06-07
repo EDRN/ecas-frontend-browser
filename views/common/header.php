@@ -2,8 +2,8 @@
 
 require_once(HOME . "/modules/profile/scripts/widgets/UserStatusWidget.php");
 $userStatusWidget = new UserStatusWidget(array(
-	App::Get()->getAuthProvider()->isLoggedIn(),
-	App::Get()->getAuthProvider()->getCurrentUsername()));
+	App::Get()->getAuthenticationProvider()->isLoggedIn(),
+	App::Get()->getAuthenticationProvider()->getCurrentUsername()));
 
 ?>
 <html>
