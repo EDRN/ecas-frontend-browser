@@ -1,52 +1,7 @@
 <?php
 $module = App::Get()->loadModule();
+App::Get()->response->addStylesheet($module->moduleStatic . '/css/labcas.css');
 ?>
-<style type="text/css">
-	td.separator {
-		padding:15px 0px 8px 0px;
-	}
-	td,th {
-		vertical-align:top;
-	}
-	td.hint {
-		padding-top:6px;
-		color:#444;
-		font-size:90%;
-	}
-	td.important {
-		background-color:#ffd873;
-		padding:20px 15px;
-		border:solid 1px #bf9730;
-	}
-	th {
-		padding-top:6px;
-	}
-	textarea {
-		height:140px;
-		padding:10px;
-		font-size:115%;
-	}
-	.centered {
-		text-align:center;
-	}
-	.right {
-		text-align:right;
-	}
-	td.quote {
-		font-size:130%;
-		color:#444;
-		font-family:Georgia,"Times New Roman", serif;
-		line-height:2em;
-	}
-	span.tag {
-		padding:3px 15px;
-		border:solid 1px #48c;
-		background-color:#8cf;
-		-webkit-border-radius: 6px;
-		-moz-border-radius: 6px;
-		border-radius: 6px;
-	}
-</style>
 <div class="container">
 	<h2><a href="<?php echo $module->moduleRoot?>/"><img src="<?php echo $module->moduleStatic?>/img/beaker.png" style="height:100px;margin-left:-25px;border:none;"/></a> Received Your File...</h2>
 	<p>Here's the file we got from you:

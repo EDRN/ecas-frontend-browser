@@ -1,27 +1,8 @@
 <?php
 $module = App::Get()->loadModule();
+App::Get()->response->addStylesheet($module->moduleStatic . '/css/labcas.css');
 ?>
-<style type="text/css">
-	td.separator {
-		padding:15px 0px 8px 0px;
-	}
-	td,th {
-		vertical-align:top;
-	}
-	td.hint {
-		padding-top:6px;
-		color:#444;
-		font-size:90%;
-	}
-	th {
-		padding-top:10px;
-	}
-	textarea {
-		height:140px;
-		padding:10px;
-		font-size:115%;
-	}
-</style>
+
 <div class="container">
 	<h2><a href="<?php echo $module->moduleRoot?>/"><img src="<?php echo $module->moduleStatic?>/img/beaker.png" style="height:100px;margin-left:-25px;border:none;"/></a>Upload a File...</h2>
 	<table>
@@ -32,7 +13,7 @@ $module = App::Get()->loadModule();
 		</tr>
 		<tr><td colspan="3" class="separator"><hr/></td></tr>
 
-		<tr><th>Description: *</th>
+		<tr><th style="width:110px;">Description: *</th>
 		    <td><textarea></textarea></td>
 	 	    <td class="hint">Provide descriptive information that will help others to understand your file in context. This information will be publicly visible to
 				     others and may appear in search results on the EDRN Public Portal.</td>
