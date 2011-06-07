@@ -56,9 +56,16 @@ urldecode($met['SiteName'][0])
 	   review requires a login name.</p>
 </div>
 <div class="box span-6 last" style="padding:0.9em;height:150px;">
+	<?php if (App::Get()->getAuthenticationProvider()->isLoggedIn()):?>
+	<h3>Share Files</h3>
+	<img src="<?php echo SITE_ROOT?>/static/img/beaker.png" style="height:90px;float:left;"/>
+		<strong>LabCas</strong> allows you to share files with other investigators and groups.
+		<a href="<?php echo SITE_ROOT?>/labcas/">Get Started</a>
+	<?php else: ?>
 	<h3>More About EDRN</h3>
 	<p>Learn more about the EDRN by 
 	   visiting the EDRN Public Portal.	
+	<?php endif;?>
 </div>
 <br class="clr"/>
 <hr/>
