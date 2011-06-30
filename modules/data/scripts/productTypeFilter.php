@@ -32,7 +32,6 @@ function translate($type,$candidate) {
 	
 	// The default is to use curl to make the request
 
-/*
 	if ($useCurl && function_exists('curl_init')) {
 		$ch = curl_init();
 		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
@@ -43,7 +42,6 @@ function translate($type,$candidate) {
 	} 
 	// Otherwise, use fopen as a fallback
 	else {
-*/
 		$opts = array(
 			'http' => array (
 				'method' => 'GET',
@@ -52,9 +50,7 @@ function translate($type,$candidate) {
 		$ctx = stream_context_create($opts);
 		$handle = fopen ($url, 'r', false, $ctx);
 		return stream_get_contents($handle);
-/*
 	}
-*/
 }
 
 // Get a Cas-Browser XML/RPC Client
