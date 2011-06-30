@@ -31,6 +31,8 @@ function translate($type,$candidate) {
 	}
 	
 	// The default is to use curl to make the request
+
+/*
 	if ($useCurl && function_exists('curl_init')) {
 		$ch = curl_init();
 		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
@@ -41,6 +43,7 @@ function translate($type,$candidate) {
 	} 
 	// Otherwise, use fopen as a fallback
 	else {
+*/
 		$opts = array(
 			'http' => array (
 				'method' => 'GET',
@@ -49,7 +52,9 @@ function translate($type,$candidate) {
 		$ctx = stream_context_create($opts);
 		$handle = fopen ($url, 'r', false, $ctx);
 		return stream_get_contents($handle);
+/*
 	}
+*/
 }
 
 // Get a Cas-Browser XML/RPC Client
@@ -76,11 +81,13 @@ foreach ($ptypes as $pt) {
 			"description" => array($ptArray[App::Get()->settings['browser_pt_desc_key']]),
 			"id"   => array($ptArray[App::Get()->settings['browser_pt_id_key']])));
 
+
 		/***EDRN-SPECIFIC***/
 		if (isset($merged['SiteName'][0]))   { $merged['SiteName'][0]  = translate('SiteName',$merged['SiteName'][0]); }
-		if (isset($merged['ProtocolId'][0])) { $merged['ProtocolName'] = array(translate('Protocol',$merged['ProdocolId'][0])); }
-		if (isset($merged['ProtocolID'][0])) { $merged['ProtocolName'] = array(translate('Protocol',$merged['ProdocolID'][0])); }
+		if (isset($merged['ProtocolId'][0])) { $merged['ProtocolName'] = array(translate('Protocol',$merged['ProtocolId'][0])); }
+      		if (isset($merged['ProtocolID'][0])) { $merged['ProtocolName'] = array(translate('Protocol',$merged['ProtocolID'][0])); }
 		/***END EDRN-SPECIFIC***/
+
 		
 		$productTypes[$merged['DataSetName'][0]] = $merged;
 	}	
