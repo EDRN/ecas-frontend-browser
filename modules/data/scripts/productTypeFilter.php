@@ -67,7 +67,13 @@ $needle = urldecode($_GET['value']);
 $productTypes = array();
 foreach ($ptypes as $pt) {
 	$ptArray = $pt->toAssocArray();
-	
+
+	// Handle ProtocolID/ProtocolId discrepency
+	if ($metKey == 'ProtocolId' && isset($ptArray['typeMetadata']['ProtocolID'])) {
+	  $metKey   = 'ProtocolID';
+	}
+
+
 	// Check whether the requested met key value matches desired value
 	if ($needle == '*' || (isset($ptArray['typeMetadata'][$metKey]) 
 		&& $ptArray['typeMetadata'][$metKey][0] == $needle)) {

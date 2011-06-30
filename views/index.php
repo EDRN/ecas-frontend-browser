@@ -23,7 +23,10 @@
 	foreach ($ptypes as $ptype) {
 		$met = $ptype->toAssocArray();
 		$met = $met['typeMetadata'];
-		
+
+		// Account for ProtocolID/ProtocolId discrepency
+		if (isset($met['ProtocolID'])) { $met['ProtocolId'] = $met['ProtocolID']; }
+
 		// Investigator (LeadPI)
 		$investigators[$met['LeadPI'][0]] = array(
 			"label" => $met['LeadPI'][0],
@@ -119,16 +122,16 @@ urldecode($met['SiteName'][0])
 		<h4><img src="<?php echo SITE_ROOT?>/static/img/group.png"/>Filter By Collaborative Group</h4>
 		<div style="position:relative">
 		  <div class="collabGroupLink" style="top:20px;left:50px;">
-		  	<a href="http://tumor.jpl.nasa.gov/ecas/data/productTypeFilter.do?key=CollaborativeGroup&value=Lung%20and%20Upper%20Aerodigestive">Lung &amp; Upper Aerodigestive</a>
+		  	<a href="<?php echo SITE_ROOT?>/data/productTypeFilter.do?key=CollaborativeGroup&value=Lung%20and%20Upper%20Aerodigestive">Lung &amp; Upper Aerodigestive</a>
 		  </div>
 		  <div class="collabGroupLink" style="top:45px;left:50px;">
-		  	<a href="http://tumor.jpl.nasa.gov/ecas/data/productTypeFilter.do?key=CollaborativeGroup&value=Breast/GYN">Breast / GYN</a>
+		  	<a href="<?php echo SITE_ROOT?>/ecas/data/productTypeFilter.do?key=CollaborativeGroup&value=Breast/GYN">Breast / GYN</a>
 		  </div>		  
 		  <div class="collabGroupLink" style="top:70px;left:50px;">
-		  	<a href="http://tumor.jpl.nasa.gov/ecas/data/productTypeFilter.do?key=CollaborativeGroup&value=GI%20and%20Other%20Associated">GI &amp; Other Associated</a>
+		  	<a href="<?php echo SITE_ROOT?>/ecas/data/productTypeFilter.do?key=CollaborativeGroup&value=GI%20and%20Other%20Associated">GI &amp; Other Associated</a>
 		  </div>
 		  <div class="collabGroupLink" style="top:95px;left:50px;">
-		  	<a href="http://tumor.jpl.nasa.gov/ecas/data/productTypeFilter.do?key=CollaborativeGroup&value=Prostate%20and%20Urologic">Prostate &amp; Urologic</a>
+		  	<a href="<?php echo SITE_ROOT?>/ecas/data/productTypeFilter.do?key=CollaborativeGroup&value=Prostate%20and%20Urologic">Prostate &amp; Urologic</a>
 		  </div>
 		
 		</div>
