@@ -11,9 +11,9 @@
  *              with their defined metadata
  *              
  */
-
-require_once(MODULE . "/classes/CasBrowser.class.php");
-require_once(MODULE . "/scripts/widgets/ProductTypeListWidget.php");
+$module = App::Get()->loadModule();
+require_once($module->modulePath . "/classes/CasBrowser.class.php");
+require_once($module->modulePath . "/scripts/widgets/ProductTypeListWidget.php");
 
 
 function translate($type,$candidate) {
