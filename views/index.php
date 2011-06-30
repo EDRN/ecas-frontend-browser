@@ -64,7 +64,7 @@ urldecode($met['SiteName'][0])
 	<?php else: ?>
 	<h3>More About EDRN</h3>
 	<p>Learn more about the EDRN by 
-	   visiting the EDRN Public Portal.	
+	   visiting the <a href="<?php echo App::Get()->settings['edrn_public_portal_url']?>">EDRN Public Portal</a>.	
 	<?php endif;?>
 </div>
 <br class="clr"/>
@@ -84,10 +84,10 @@ urldecode($met['SiteName'][0])
 		<ul>
 			<li><a href="#facet-pi" title="Principal Investigator"><img src="<?php echo SITE_ROOT?>/static/img/user_gray.png"/></a></li>
 			<li><a href="#facet-protocol" title="Protocol"><img src="<?php echo SITE_ROOT?>/static/img/page_white_text.png"/></a></li>
-			<li class="selected"><a href="#facet-organ" title="Organ Group"><img src="<?php echo SITE_ROOT?>/static/img/group.png"/></a></li>
+			<li class="selected"><a href="#facet-organ" title="Collaborative Group"><img src="<?php echo SITE_ROOT?>/static/img/group.png"/></a></li>
 			<li><a href="#facet-site" title="Participating Site"><img src="<?php echo SITE_ROOT?>/static/img/building.png"/></a></li>
 		</ul>
-		<span class="label">Principal Investigator</span>
+		<span class="label">Collaborative Group</span>
 	</div>
 	<div id="facet-pi" class="facet box">
 		<h4><img src="<?php echo SITE_ROOT?>/static/img/user_gray.png"/>Filter By Principal Investigator</h4>
