@@ -79,7 +79,7 @@ foreach ($ptypes as $pt) {
 		/***EDRN-SPECIFIC***/
 		if (isset($merged['SiteName'][0]))   { $merged['SiteName'][0]  = translate('SiteName',$merged['SiteName'][0]); }
 		if (isset($merged['ProtocolId'][0])) { $merged['ProtocolName'] = array(translate('Protocol',$merged['ProdocolId'][0])); }
-		if (isset($merged['ProtocolID'][0])) { $merged['ProtocolName'] = array(translate('Protocol',$merged['ProdocolId'][0])); }
+		if (isset($merged['ProtocolID'][0])) { $merged['ProtocolName'] = array(translate('Protocol',$merged['ProdocolID'][0])); }
 		/***END EDRN-SPECIFIC***/
 		
 		$productTypes[$merged['DataSetName'][0]] = $merged;
