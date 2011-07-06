@@ -1,7 +1,8 @@
 <?php
-require_once(MODULE . "/classes/CasBrowser.class.php");
-require_once(MODULE . "/scripts/widgets/MetadataDisplayWidget.php");
-require_once(MODULE . "/scripts/widgets/ProductDownloadWidget.php");
+$ctx = App::Get()->loadModule();
+require_once($ctx->modulePath . "/classes/CasBrowser.class.php");
+require_once($ctx->modulePath . "/scripts/widgets/MetadataDisplayWidget.php");
+require_once($ctx->modulePath . "/scripts/widgets/ProductDownloadWidget.php");
 
 // Get a CAS-Browser XML/RPC client
 $browser  = new CasBrowser();
@@ -71,7 +72,7 @@ $productInfo     = $productMetadata->toAssocArray();
  $limitedVisibility = false;
 
  // Has authentication provider informationbeen specified?
- if (($auth = App::Get()->getAuthProvider()) != false ) {
+ if (($auth = App::Get()->getAuthenticationProvider()) != false ) {
 
  	// Is the user currently logged in?
  	if (($username = $auth->getCurrentUsername()) != false ) {
@@ -106,7 +107,7 @@ $productInfo     = $productMetadata->toAssocArray();
  				case "DENY":
  				default:
  					// Kick the user out at this point, deny all access. 
-	 				App::Get()->redirect('/errors/403');
+	 				App::Get()->redirect(SITE_ROOT . '/errors/403');
  			}
  		} else {
  			// We have an authorized user
@@ -116,7 +117,7 @@ $productInfo     = $productMetadata->toAssocArray();
  		// If no logged in user, and policy says DENY, kick the user
  		if (strtoupper(App::Get()->settings['browser_p_auth_policy']) == "DENY"
  			&& $productTypeInfo['typeMetadata']['QAState'][0] != 'Accepted') {
- 			App::Get()->redirect('/errors/403');
+ 			App::Get()->redirect(SITE_ROOT . '/errors/403');
  		} else if ($productTypeInfo['typeMetadata']['QAState'][0] != 'Accepted') {
  			$authorizedUser = true;
  			$limitedVisibility = false;
@@ -139,8 +140,8 @@ $metadataWidget = new MetadataDisplayWidget(array());
 
 
 // Is someone logged in?
-$status = (App::Get()->getAuthProvider()
-	   && App::Get()->getAuthProvider()->getCurrentUsername() != false)
+$status = (App::Get()->getAuthenticationProvider()
+	   && App::Get()->getAuthenticationProvider()->getCurrentUsername() != false)
   ? CasBrowser::VIS_AUTH_AUTHENTICATED
   : CasBrowser::VIS_AUTH_ANONYMOUS;
 
@@ -156,7 +157,7 @@ $productDownloadWidget->setClient($client);
 $productDownloadWidget->load($product);
 
 // Add the cas-browser styles
-App::Get()->response->addStylesheet(MODULE_STATIC . '/css/cas-browser.css');
+App::Get()->response->addStylesheet($ctx->moduleStatic . '/css/cas-browser.css');
 
 ?>
 <script type="text/javascript">
@@ -197,9 +198,9 @@ App::Get()->response->addStylesheet(MODULE_STATIC . '/css/cas-browser.css');
 </script>
 <div class="breadcrumbs">
 <a href="<?php echo SITE_ROOT?>/">Home</a>&nbsp;&rarr;&nbsp;
-<a href="<?php echo MODULE_ROOT?>/">Browser</a>&nbsp;&rarr;&nbsp;
-<a href="<?php echo MODULE_ROOT?>/dataset/<?php echo $productTypeId?>"><?php echo $productTypeName?></a>&nbsp;&rarr;&nbsp;
-<a href="<?php echo MODULE_ROOT."/products/{$productTypeId}"?>/page/<?php echo $returnPage?>">Products</a>&nbsp;&rarr;&nbsp;
+<a href="<?php echo $ctx->moduleRoot?>/">Browser</a>&nbsp;&rarr;&nbsp;
+<a href="<?php echo $ctx->moduleRoot?>/dataset/<?php echo $productTypeId?>"><?php echo $productTypeName?></a>&nbsp;&rarr;&nbsp;
+<a href="<?php echo $ctx->moduleRoot."/products/{$productTypeId}"?>/page/<?php echo $returnPage?>">Products</a>&nbsp;&rarr;&nbsp;
 <?php echo App::Get()->request->segments[0]?>
 </div>
 <hr class="space"/>

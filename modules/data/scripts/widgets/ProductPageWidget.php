@@ -24,12 +24,13 @@ class ProductPageWidget
 	}
 	
 	public function render($bEcho = true) {
+	        $ctx = App::Get()->loadModule();
 		$str = '';
 		if ($this->page) {
 			$str .= "<ul class=\"pp_productList\">";
 			$products = $this->page->getPageProducts();
 			foreach ($products as $product) {
-				$str .= "<li><a href=\"".MODULE_ROOT."/product/{$product->getId()}/{$this->returnPage}\">" 
+				$str .= "<li><a href=\"".$ctx->moduleRoot."/product/{$product->getId()}/{$this->returnPage}\">" 
 				  . urlDecode(basename($product->getName())) . "</a></li>";
 			}
 			$str .= "</ul>\r\n";

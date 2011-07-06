@@ -20,6 +20,7 @@ class ProductDownloadWidget
 	}
 	
 	public function render($bEcho = true) {
+	        $ctx = App::Get()->loadModule();
 		$str = '';
 		$references = $this->client->getProductReferences($this->product);
 		if (isset($references['faultCode'])){
@@ -52,7 +53,7 @@ class ProductDownloadWidget
 			if ($reference['mimeType'] == 'image/jpeg') {
 				$str .=  "<img class=\"tn\" src=\"".$this->dataDeliveryUrl."/data?refIndex=$referenceCounter&productID={$this->product->getID()}\">";	
 			} else {
-				$str .=  "<img class=\"tn\" src=\"".MODULE_STATIC."/img/download-icon.gif\"/>";
+				$str .=  "<img class=\"tn\" src=\"".$ctx->moduleStatic."/img/download-icon.gif\"/>";
 			}
 			$str .=  "</td>";
 			$str .=  "<td style=\"vertical-align:top;\">".urldecode($fileName)." <br/><span style=\"color:#555;font-size:0.9em;\">$fileSizeStr</span><br/>";

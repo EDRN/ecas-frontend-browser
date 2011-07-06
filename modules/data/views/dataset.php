@@ -65,7 +65,7 @@ $typeInfo = $productType->toAssocArray();
  $limitedVisibility = false;
 
  // Has authentication provider information been specified?
- if (($auth = App::Get()->getAuthProvider()) != false ) {
+ if (($auth = App::Get()->getAuthenticationProvider()) != false ) {
 
  	// Is the user currently logged in?
  	if (($username = $auth->getCurrentUsername()) != false ) {
@@ -181,7 +181,7 @@ $systemMetadataWidget->loadMetadata($typeMetadata)
 <div class="container">
 <div class="breadcrumbs">
 <a href="<?php echo SITE_ROOT?>/">Home</a>&nbsp;&rarr;&nbsp;
-<a href="<?php echo MODULE_ROOT?>/">Browser</a>&nbsp;&rarr;&nbsp;
+<a href="<?php echo $ctx->moduleRoot?>/">Browser</a>&nbsp;&rarr;&nbsp;
 <?php echo $ptName?>
 </div>
 <hr class="space"/>

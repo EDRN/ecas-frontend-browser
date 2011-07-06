@@ -1,6 +1,7 @@
 <?php
-require_once(MODULE . "/classes/CasBrowser.class.php");
-require_once(MODULE . "/scripts/widgets/FilterWidget.php");
+$ctx = App::Get()->loadModule();
+require_once($ctx->modulePath . "/classes/CasBrowser.class.php");
+require_once($ctx->modulePath . "/scripts/widgets/FilterWidget.php");
 
 // Get a CAS-Browser XML/RPC client
 $browser  = new CasBrowser();
@@ -60,7 +61,7 @@ $typeInfo = $productType->toAssocArray();
  $limitedVisibility = false;
 
  // Has authentication provider informationbeen specified?
- if (($auth = App::Get()->getAuthProvider()) != false ) {
+ if (($auth = App::Get()->getAuthenticationProvider()) != false ) {
 
  	// Is the user currently logged in?
  	if (($username = $auth->getCurrentUsername()) != false ) {
@@ -143,7 +144,8 @@ $pageWanted = (isset(App::Get()->request->segments[1]) && App::Get()->request->s
 $page = Utils::getPage($productType, $pageWanted);
 
 // Create a ProductPage Widget to display the results
-$productPageWidget = App::Get()->createWidget('ProductPageWidget',
+require_once($ctx->modulePath . '/scripts/widgets/ProductPageWidget.php');
+$productPageWidget = new ProductPageWidget(
 	array("productTypeId" => App::Get()->request->segments[0],
 		  "returnPage"    => $pageWanted));
 $productPageWidget->load($page);
@@ -152,8 +154,8 @@ $productPageWidget->load($page);
 <div class="container">
 <div class="breadcrumbs">
 	<a href="<?php echo SITE_ROOT?>/">Home</a>&nbsp;&rarr;&nbsp;
-	<a href="<?php echo MODULE_ROOT?>/">Browser</a>&nbsp;&rarr;&nbsp;
-	<a href="<?php echo MODULE_ROOT."/dataset/{$ptID}"?>"><?php echo $ptName?></a>&nbsp;&rarr;&nbsp;
+	<a href="<?php echo $ctx->moduleRoot?>/">Browser</a>&nbsp;&rarr;&nbsp;
+	<a href="<?php echo $ctx->moduleRoot."/dataset/{$ptID}"?>"><?php echo $ptName?></a>&nbsp;&rarr;&nbsp;
 	Products
 </div>
 <hr class="space"/>
@@ -184,11 +186,18 @@ $productPageWidget->load($page);
 		</div>
 		<div id="cas_browser_product_actions" class="span-9 last">
 			<div id="cas_browser_dataset_download">
-		        <a href="<?php echo App::Get()->settings['browser_datadeliv_url']?>/dataset?typeID=<?php echo App::Get()->request->segments[0]?>&format=application/x-zip">
-		        <img src="<?php echo MODULE_STATIC?>/img/zip-icon-smaller.gif" alt="zip-icon" style="float:left;margin-right:15px;"/>
-		        </a>
+			<?php if($limitedVisibility): ?>
+				<div style="background-color:#bbddff;padding:5px">
+					You do not currently have permission to download this dataset as a zip file
+				</div>
+			<?php else: ?>
+				<a href="<?php echo App::Get()->settings['browser_datadeliv_url']?>/dataset?typeID=<?php echo App::Get()->request->segments[0]?>&format=application/x-zip">
+        	                <img src="<?php echo $ctx->moduleStatic?>/img/zip-icon-smaller.gif" alt="zip-icon" style="float:left;margin-right:15px;"/>
+                        </a>
 		        Click on the icon to download all <?php echo $productCount ?> data products associated with
-		        this product type as a single Zip archive.<br/>
+		        this product type as a single Zip archive.
+			<?php endif ?>
+			<br/>
 			</div>
 			<hr class="space"/>
 			<hr/>
