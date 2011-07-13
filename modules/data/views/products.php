@@ -126,7 +126,7 @@ if ($typeInfo['typeMetadata']['QAState'][0] == 'Accepted') {
 // Initialize the FilterWidget
 $querySiteRoot = (isset(App::Get()->settings['query_service_url']))
 	? App::Get()->settings['query_service_url']
-	: 'http://' . $_SERVER['HTTP_HOST'] . MODULE_ROOT;
+	: 'http://' . $_SERVER['HTTP_HOST'] . $ctx->moduleRoot;
 
 $filterWidget = new FilterWidget(array(
 	'productType'=>$productType,
