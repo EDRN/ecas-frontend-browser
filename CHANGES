@@ -1,6 +1,21 @@
 EDRN JIRA site: http://oodt.jpl.nasa.gov/jira/browse/CA
 
 
+Release Notes - Early Detection of Cancer - Version eCAS Browser beta 0.5.1 release - 08/29/2011
+
+
+** Bug
+    * [CA-769] - Cannot download files - 403 - page does not exist error.
+    * [CA-773] - Label mismatch on ecas browser homepage due to changed defaults
+    * [CA-774] - Link to the public portal from the ecas home page
+    * [CA-777] - not all protocols showing up on ecas browser "protocol" filter
+    * [CA-790] - http 500 error returned from 'collab group' filters (all except lung) on ecas home page
+
+** Improvement
+    * [CA-757] - Need to change RDF dataset URL format for eCAS datasets to match new 0.5.0 beta browser
+    * [CA-776] - Add protocol name to the dataset "teaser" shown on the ecas home page
+
+
 
 Release Notes - Early Detection of Cancer - Version eCAS Browser beta 0.5.0 release - 04/13/2011
 
