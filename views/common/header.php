@@ -1,9 +1,12 @@
 <?php
-
 require_once(HOME . "/modules/profile/scripts/widgets/UserStatusWidget.php");
+require_once(HOME . '/scripts/widgets/BreadcrumbsWidget.php');
+
 $userStatusWidget = new UserStatusWidget(array(
 	App::Get()->getAuthenticationProvider()->isLoggedIn(),
 	App::Get()->getAuthenticationProvider()->getCurrentUsername()));
+$breadcrumbsWidget = new BreadcrumbsWidget();
+
 
 ?>
 <html>
@@ -62,8 +65,11 @@ $userStatusWidget = new UserStatusWidget(array(
 	
 	<div class="menu">
 		<!-- Breadcrumbs Area -->
-		<div id="breadcrumbs"/>
-			<ul><li><a href="<?php echo SITE_ROOT?>/">Home</a></li></ul>
+		<div id="breadcrumbs">
+			<?php
+				echo '<a href="' . App::Get()->settings['edrn_public_portal_url'] . '">EDRN Public Portal</a> &rarr;';
+				echo $breadcrumbsWidget->render();
+			?>
 		</div><!-- End Breadcrumbs -->
 	</div>
 
