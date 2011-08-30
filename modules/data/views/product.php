@@ -1,4 +1,5 @@
 <?php
+require_once(HOME . '/scripts/widgets/BreadcrumbsWidget.php');
 $ctx = App::Get()->loadModule();
 require_once($ctx->modulePath . "/classes/CasBrowser.class.php");
 require_once($ctx->modulePath . "/scripts/widgets/MetadataDisplayWidget.php");
@@ -159,6 +160,14 @@ $productDownloadWidget->load($product);
 // Add the cas-browser styles
 App::Get()->response->addStylesheet($ctx->moduleStatic . '/css/cas-browser.css');
 
+// Prepare BreadcrumbWigdet
+$bcw = new BreadcrumbsWidget();
+$bcw->add('Home',SITE_ROOT . '/');
+$bcw->add($productTypeName, $ctx->moduleRoot."/dataset/{$productTypeId}");
+$bcw->add('Products', $ctx->moduleRoot."/products/{$productTypeId}/page/{$returnPage}");
+$bcw->add(App::Get()->request->segments[0]);
+
+
 ?>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -196,14 +205,6 @@ App::Get()->response->addStylesheet($ctx->moduleStatic . '/css/cas-browser.css')
 	});
 	
 </script>
-<div class="breadcrumbs">
-<a href="<?php echo SITE_ROOT?>/">Home</a>&nbsp;&rarr;&nbsp;
-<a href="<?php echo $ctx->moduleRoot?>/">Browser</a>&nbsp;&rarr;&nbsp;
-<a href="<?php echo $ctx->moduleRoot?>/dataset/<?php echo $productTypeId?>"><?php echo $productTypeName?></a>&nbsp;&rarr;&nbsp;
-<a href="<?php echo $ctx->moduleRoot."/products/{$productTypeId}"?>/page/<?php echo $returnPage?>">Products</a>&nbsp;&rarr;&nbsp;
-<?php echo App::Get()->request->segments[0]?>
-</div>
-<hr class="space"/>
 <div class="span-22 last prepend-1 append-1">
 	<div id="cas_browser_product_metadata">
 		<h3 class="loud">Product Metadata: <?php echo $productName?></h3>
