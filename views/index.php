@@ -2,6 +2,7 @@
 	// Load the Cas-Browser Module
 	App::Get()->loadModule('data');
 	
+	require_once(HOME . '/scripts/widgets/BreadcrumbsWidget.php');
 	require_once(HOME . '/classes/EcasUtilities.class.php');
 	require_once(HOME . '/modules/data/classes/CasBrowser.class.php');
 	
@@ -45,6 +46,9 @@
 urldecode($met['SiteName'][0])
 		);
 	}
+	
+	$bcw = new BreadcrumbsWidget();
+	$bcw->add('Home');
 ?>
 
 <div class="span-10" style="padding:0.9em;height:150px;">
