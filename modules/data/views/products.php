@@ -1,4 +1,5 @@
 <?php
+require_once(HOME . '/scripts/widgets/BreadcrumbsWidget.php');
 $ctx = App::Get()->loadModule();
 require_once($ctx->modulePath . "/classes/CasBrowser.class.php");
 require_once($ctx->modulePath . "/scripts/widgets/FilterWidget.php");
@@ -150,15 +151,15 @@ $productPageWidget = new ProductPageWidget(
 		  "returnPage"    => $pageWanted));
 $productPageWidget->load($page);
 
+// Prepare BreadcrumbWigdet
+$bcw = new BreadcrumbsWidget();
+$bcw->add('Home',SITE_ROOT . '/');
+$bcw->add($ptName, $ctx->moduleRoot."/dataset/{$ptID}");
+$bcw->add("Products");
+
+
 ?>
 <div class="container">
-<div class="breadcrumbs">
-	<a href="<?php echo SITE_ROOT?>/">Home</a>&nbsp;&rarr;&nbsp;
-	<a href="<?php echo $ctx->moduleRoot?>/">Browser</a>&nbsp;&rarr;&nbsp;
-	<a href="<?php echo $ctx->moduleRoot."/dataset/{$ptID}"?>"><?php echo $ptName?></a>&nbsp;&rarr;&nbsp;
-	Products
-</div>
-<hr class="space"/>
 <div id="cas_browser_container" class="span-24 last">
 
 	<div id="section_products">
