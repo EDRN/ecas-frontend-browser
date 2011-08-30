@@ -2,9 +2,11 @@
 // Load the module context for this module
 $ctx  = App::Get()->loadModule();
 
+require_once(HOME . '/scripts/widgets/BreadcrumbsWidget.php');
 require_once(HOME . '/classes/EcasUtilities.class.php');
 require_once($ctx->modulePath . "/classes/CasBrowser.class.php");
 require_once($ctx->modulePath . "/scripts/widgets/MetadataDisplayWidget.php");
+
 
 // Get a CAS-Browser XML/RPC client
 $browser  = new CasBrowser();
@@ -155,7 +157,13 @@ $typeMetadataWidget->loadMetadata($sortedMetadata);
 $typeMetadata = $productType->toAssocArray();
 unset($typeMetadata['typeMetadata']);
 $systemMetadataWidget = new MetadataDisplayWidget(array());
-$systemMetadataWidget->loadMetadata($typeMetadata)
+$systemMetadataWidget->loadMetadata($typeMetadata);
+
+// Prepare BreadcrumbWigdet
+$bcw = new BreadcrumbsWidget();
+$bcw->add('Home',SITE_ROOT . '/');
+$bcw->add($ptName);
+
 
 ?>
 <script type="text/javascript">
@@ -179,12 +187,6 @@ $systemMetadataWidget->loadMetadata($typeMetadata)
 
 
 <div class="container">
-<div class="breadcrumbs">
-<a href="<?php echo SITE_ROOT?>/">Home</a>&nbsp;&rarr;&nbsp;
-<a href="<?php echo $ctx->moduleRoot?>/">Browser</a>&nbsp;&rarr;&nbsp;
-<?php echo $ptName?>
-</div>
-<hr class="space"/>
 <div id="cas_browser_container" class="span-24 last">
 	<h3><?php echo $sortedMetadata['DataSetName'][0]?></h3>
 	<?php if (!empty($response['description'])): ?>
