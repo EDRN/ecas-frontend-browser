@@ -75,6 +75,13 @@ $productInfo     = $productMetadata->toAssocArray();
  // Has authentication provider informationbeen specified?
  if (($auth = App::Get()->getAuthenticationProvider()) != false ) {
 
+    $connData['sso_base_dn'] = App::Get()->settings['sso_ldap_base_dn'];
+    $connData['sso_group_dn'] = App::Get()->settings['sso_ldap_group_dn'];
+    $connData['sso_ldap_host'] = App::Get()->settings['sso_ldap_host'];
+    $connData['sso_ldap_port'] = App::Get()->settings['sso_ldap_port'];
+    $auth->setConnectionData($connData);
+    $auth->connect();
+
  	// Is the user currently logged in?
  	if (($username = $auth->getCurrentUsername()) != false ) {
  		
