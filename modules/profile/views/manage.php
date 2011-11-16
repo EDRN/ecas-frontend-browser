@@ -4,8 +4,8 @@
  * Lists all the information that is editable 
  */
 
-$userAttr = App::Get()->getAuthProvider()->retrieveUserAttributes( 
-				App::Get()->getAuthProvider()->getCurrentUsername(), App::Get()->settings['auth_ldap_attributes'] );
+$userAttr = App::Get()->getAuthenticationProvider()->retrieveUserAttributes( 
+				App::Get()->getAuthenticationProvider()->getCurrentUsername(), App::Get()->settings['auth_ldap_attributes'] );
 
 ?>
 

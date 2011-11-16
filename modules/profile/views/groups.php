@@ -5,7 +5,7 @@
  */
 
 // Get instance of sso class
-$sso = App::Get()->getAuthProvider();
+$sso = App::Get()->getAuthenticationProvider();
 
 $groups = $sso->retrieveGroupsForUser($sso->getCurrentUsername(),App::Get()->settings['sso_group_dn']);
 
