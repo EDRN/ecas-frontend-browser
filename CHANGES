@@ -1,6 +1,22 @@
 EDRN JIRA site: http://oodt.jpl.nasa.gov/jira/browse/CA
 
 
+Release Notes - Early Detection of Cancer - Version eCAS Browser beta 0.5.2 release - 11/21/2011
+
+
+** Bug
+    * [CA-793] - Comment out CSW widget in login for eCAS browser
+    * [CA-797] - eCAS data module does not properly configure and instantiate Balance authentication object 
+    * [CA-798] - Need a non SVN:external, and localized version of the profile module to deal with updates to its config.ini
+    * [CA-824] - DMCC fallback login not working on eCAS
+    * [CA-826] - unable to download products as super user in ecas browser
+
+** Improvement
+    * [CA-655] - Add links back to portal for eCAS
+
+
+
+
 Release Notes - Early Detection of Cancer - Version eCAS Browser beta 0.5.1 release - 08/29/2011
 
 
