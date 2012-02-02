@@ -181,12 +181,17 @@ function generateProductTypeTeaser( data ) {
 			$blurb.append($('<a>').attr('href','/ecas/data/dataset/'+data.DatasetId[0]).text('more'));			
 		}
 	}
+
+	if (!data.DatasetId || !data.DatasetId[0]) {
+		return '';
+	} else {
 	
-	var $content = $('<div>').addClass('productTypeTeaser')
-		.append($('<h5>').css('margin-bottom','0px').append($('<a>').attr('href','/ecas/data/dataset/'+data.DatasetId[0]).text(data.DataSetName[0])))
-		.append($('<div>').addClass('quiet').html('P.I.: ' + data.LeadPI[0]))
-		.append($('<div>').addClass('quiet').html('Protocol: ' + data.ProtocolName[0]))
-		.append($('<div>').addClass('blurb').html($blurb));
+		var $content = $('<div>').addClass('productTypeTeaser')
+			.append($('<h5>').css('margin-bottom','0px').append($('<a>').attr('href','/ecas/data/dataset/'+data.DatasetId[0]).text(data.DataSetName[0])))
+			.append($('<div>').addClass('quiet').html('P.I.: ' + data.LeadPI[0]))
+			.append($('<div>').addClass('quiet').html('Protocol: ' + data.ProtocolName[0]))
+			.append($('<div>').addClass('blurb').html($blurb));
 	
-	return $content;
+		return $content;
+	}
 }
