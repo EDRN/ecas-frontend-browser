@@ -68,6 +68,11 @@ $productTypes = array();
 foreach ($ptypes as $pt) {
 	$ptArray = $pt->toAssocArray();
 
+	// Ignore datasets referenced in balance config.ini. Temp fix until cas-browser trunk rv r12203 integrated
+	if (in_array($pt->id,App::Get()->settings['browser_dataset_ignores'])) {
+		continue;
+	}
+
 	// Handle ProtocolID/ProtocolId discrepency
 	if ($metKey == 'ProtocolId' && isset($ptArray['typeMetadata']['ProtocolID'])) {
 	  $metKey   = 'ProtocolID';
