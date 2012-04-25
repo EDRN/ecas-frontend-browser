@@ -43,6 +43,7 @@ class ProductPageWidget
 	}
 	
 	public function renderPageDetails($bEcho = true) {
+	        $ctx = App::Get()->loadModule();
 		$displayCountStart = $this->page->getPageSize() * ($this->page->getPageNum() - 1) + 1;
 		$displayCountEnd   = $displayCountStart + count($this->page->getPageProducts()) - 1;
 		$displayCountStart = ($displayCountStart == 0) ? 1 : $displayCountStart;
@@ -51,7 +52,7 @@ class ProductPageWidget
 		
 
 		// 'Previous' and 'Next' page links
-		$linkBase    = MODULE_ROOT . "/products/{$this->productTypeId}/page";
+		$linkBase    = $ctx->moduleRoot . "/products/{$this->productTypeId}/page";
 		$prevPageNum = $this->page->getPageNum() -1;
 		$nextPageNum = $this->page->getPageNum() +1;
 		 
