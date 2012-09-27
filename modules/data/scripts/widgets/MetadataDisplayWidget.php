@@ -47,7 +47,12 @@ class MetadataDisplayWidget
 						$r .= "</table>";
 					} else {
 						$r .= "<tr><td class=\"value\">";
-						$r .= "<div>{$val}</div>";
+                                                if($this->isValidURL($val)){
+						  $r .= "<div><a href='{$val}'>{$val}</a></div>";
+						}
+						else{
+						  $r .= "<div>{$val}</div>";
+						}
 					}
 					$r .= "</td></tr>";
 				}
@@ -67,5 +72,10 @@ class MetadataDisplayWidget
     	return (is_array($array) && 
     		(count($array)==0 || 
     			0 !== count(array_diff_key($array, array_keys(array_keys($array))) )));
+	}
+
+        protected function isValidURL($url)
+	{
+	  return preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $url);
 	}
 }
