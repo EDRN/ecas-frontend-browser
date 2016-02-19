@@ -1,6 +1,6 @@
 EDRN JIRA site: http://oodt.jpl.nasa.gov/jira/browse/CA
 
-Release Notes - Early Detection of Cancer - Version eCAS Browser beta 0.5.3 release - 12/21/2015
+Release Notes - Early Detection of Cancer - Version eCAS Browser beta 0.6.0 release - 02/18/2016
 
 
 ** Bug

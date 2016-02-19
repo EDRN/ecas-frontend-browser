@@ -58,7 +58,11 @@ class EDRNAuthenticationProvider
   
   public function connect() {
     $this->setConnection();
-    return parent::connect($this->ldapHost,$this->ldapPort);
+    if ($numargs >= 2) {
+       return parent::connect(func_get_arg(0),func_get_arg(1));
+     }else{
+       return parent::connect($this->ldapHost,$this->ldapPort);
+     }
   }
   
   public function disconnect() {

@@ -138,6 +138,9 @@ class Gov_Nasa_Jpl_Edrn_Security_EDRNAuthentication {
   }
 
   public function connect($server, $port) {
+    if($port == 0){
+      return false;
+    }
     if($conn= ldap_connect($server, $port)) {
       // Connection established
       $this->connectionStatus= 1;
